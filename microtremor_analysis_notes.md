@@ -57,6 +57,38 @@ $$c = \frac{\omega}{k} = f\lambda$$
 
 $$U = \frac{d\omega}{dk} = c - \lambda\frac{dc}{d\lambda}$$
 
+#### 2つの正弦波の重ね合わせによる理解
+
+位相速度と群速度の違いを理解するため、わずかに異なる周波数を持つ2つの正弦波の重ね合わせを考える：
+
+$$u(x,t) = \sin(k_1x - \omega_1t) + \sin(k_2x - \omega_2t)$$
+
+ここで、$k_1 = k - \Delta k$、$k_2 = k + \Delta k$、$\omega_1 = \omega - \Delta\omega$、$\omega_2 = \omega + \Delta\omega$とすると、
+
+三角関数の和積公式を用いて：
+
+$$u(x,t) = 2\cos(\Delta k \cdot x - \Delta\omega \cdot t) \sin(kx - \omega t)$$
+
+この式は以下のように解釈できる：
+
+1. **搬送波（carrier wave）**：$\sin(kx - \omega t)$
+   - 位相速度で伝播：$c = \frac{\omega}{k}$
+   - 個々の波の山や谷の移動速度
+
+2. **包絡線（envelope）**：$2\cos(\Delta k \cdot x - \Delta\omega \cdot t)$
+   - 群速度で伝播：$U = \frac{\Delta\omega}{\Delta k} \rightarrow \frac{d\omega}{dk}$（$\Delta k \rightarrow 0$の極限）
+   - 波束（wave packet）全体の移動速度
+   - エネルギーの伝播速度
+
+#### 物理的意味
+
+- **位相速度**：単一周波数成分の位相が進む速度。実際には観測できない概念的な速度
+- **群速度**：波のエネルギーや情報が伝わる速度。実際に観測される波束の移動速度
+
+分散性媒質では$c \neq U$となり：
+- 正常分散（$\frac{dc}{d\omega} > 0$）：$U < c$
+- 異常分散（$\frac{dc}{d\omega} < 0$）：$U > c$
+
 #### 分散性
 媒質が不均質な場合、位相速度は周波数に依存し（分散性）、これにより地下構造の推定が可能となる。正常分散の場合：
 - 高周波数（短波長）→ 浅部の情報
@@ -69,6 +101,7 @@ $$U = \frac{d\omega}{dk} = c - \lambda\frac{dc}{d\lambda}$$
 ```
 c(f) = f × λ
 ```
+
 
 探査深度の目安：
 ```
