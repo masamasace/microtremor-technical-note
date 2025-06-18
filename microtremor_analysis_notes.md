@@ -185,10 +185,28 @@ $$S_{12}(\omega) = S_0(\omega) \int_0^{2\pi} \exp[-ikr\cos(\theta - \alpha)] d\t
 
 **ステップ3：パワースペクトル密度の計算**
 
-各観測点でのパワースペクトル密度：
-$$S_{11}(\omega) = \langle |u(\mathbf{r}_1, \omega)|^2 \rangle = S_0(\omega) \int_0^{2\pi} d\theta = 2\pi S_0(\omega) \tag{2-12}$$
+観測点1でのパワースペクトル密度：
+$$S_{11}(\omega) = \langle |u(\mathbf{r}_1, \omega)|^2 \rangle = \langle u(\mathbf{r}_1, \omega) u^*(\mathbf{r}_1, \omega) \rangle \tag{2-12a}$$
 
-$$S_{22}(\omega) = \langle |u(\mathbf{r}_2, \omega)|^2 \rangle = S_0(\omega) \int_0^{2\pi} d\theta = 2\pi S_0(\omega) \tag{2-13}$$
+式(2-2)より$u(\mathbf{r}_1, \omega) = u(\mathbf{0}, \omega) = \int_0^{2\pi} A(\theta, \omega) d\theta$なので：
+$$S_{11}(\omega) = \left\langle \left[\int_0^{2\pi} A(\theta_1, \omega) d\theta_1\right] \left[\int_0^{2\pi} A^*(\theta_2, \omega) d\theta_2\right] \right\rangle \tag{2-12b}$$
+
+式(2-8)の関係を用いると：
+$$S_{11}(\omega) = \int_0^{2\pi} \int_0^{2\pi} \langle A(\theta_1, \omega) A^*(\theta_2, \omega) \rangle d\theta_1 d\theta_2$$
+$$= \int_0^{2\pi} \int_0^{2\pi} S_0(\omega) \delta(\theta_1 - \theta_2) d\theta_1 d\theta_2 \tag{2-12c}$$
+
+デルタ関数により$\theta_1$についての積分を実行：
+$$S_{11}(\omega) = S_0(\omega) \int_0^{2\pi} d\theta_2 = 2\pi S_0(\omega) \tag{2-12}$$
+
+観測点2でのパワースペクトル密度も同様に計算される。式(2-3)より：
+$$S_{22}(\omega) = \left\langle \left|\int_0^{2\pi} A(\theta, \omega) \exp[i\mathbf{k}(\theta) \cdot \mathbf{r}_2] d\theta\right|^2 \right\rangle \tag{2-13a}$$
+
+$$= \int_0^{2\pi} \int_0^{2\pi} S_0(\omega) \delta(\theta_1 - \theta_2) \exp[i\mathbf{k}(\theta_1) \cdot \mathbf{r}_2] \exp[-i\mathbf{k}(\theta_2) \cdot \mathbf{r}_2] d\theta_1 d\theta_2 \tag{2-13b}$$
+
+デルタ関数により$\theta_1 = \theta_2$となり、指数関数の積は1になる：
+$$S_{22}(\omega) = S_0(\omega) \int_0^{2\pi} d\theta = 2\pi S_0(\omega) \tag{2-13}$$
+
+したがって、等方的波動場では全ての観測点で同じパワースペクトル密度を持つ。
 
 **ステップ4：正規化された空間自己相関係数**
 
