@@ -219,8 +219,20 @@ $$\rho(r, \omega) = \frac{1}{2\pi} \int_0^{2\pi} \exp[-ikr\cos\psi] d\psi \tag{2
 **ステップ5：ベッセル関数の認識**
 
 オイラーの公式より$\exp[-ikr\cos\psi] = \cos(kr\cos\psi) - i\sin(kr\cos\psi)$。
-$\sin(kr\cos\psi)$の積分は奇関数のためゼロ：
 
+虚部の積分について考える。$f(\psi) = \sin(kr\cos\psi)$とおくと、この関数の対称性を調べる：
+$$f(\psi + \pi) = \sin(kr\cos(\psi + \pi)) = \sin(kr(-\cos\psi)) = \sin(-kr\cos\psi) = -\sin(kr\cos\psi) = -f(\psi) \tag{2-15a}$$
+
+これは$f(\psi)$が$\psi = \pi$を中心として奇関数であることを示す。したがって：
+$$\int_0^{2\pi} \sin(kr\cos\psi) d\psi = \int_0^{\pi} \sin(kr\cos\psi) d\psi + \int_{\pi}^{2\pi} \sin(kr\cos\psi) d\psi \tag{2-15b}$$
+
+変数変換$\phi = \psi - \pi$を第2項に適用すると：
+$$\int_{\pi}^{2\pi} \sin(kr\cos\psi) d\psi = \int_0^{\pi} \sin(kr\cos(\phi + \pi)) d\phi = -\int_0^{\pi} \sin(kr\cos\phi) d\phi \tag{2-15c}$$
+
+よって虚部の積分はゼロとなる：
+$$\int_0^{2\pi} \sin(kr\cos\psi) d\psi = 0 \tag{2-15d}$$
+
+したがって、実部のみが残る：
 $$\rho(r, \omega) = \frac{1}{2\pi} \int_0^{2\pi} \cos(kr\cos\psi) d\psi \tag{2-16}$$
 
 これは第1種0次ベッセル関数の積分表現：
