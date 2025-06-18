@@ -1,5 +1,40 @@
 # 微動アレイ観測解析手法 - 技術ノート
 
+## おおまかな流れ
+
+- 波を定量化するための指標として、波長 (波数) と 周期 (振動数)  がある。
+   - 実際に観測されるのは、いろいろな波長や周期の波が混ざったもの
+   - どの波長や周期の波が、どれぐらい混ざっているのか知りたい→①
+- でも実際に観測できるのは、ある時刻と位置における波の合計の振幅しかわからない...
+- じゃあどうやって、①を達成するのか
+   - 時刻からフーリエ変換をすると、周期ごとの振幅がわかる
+   - 位置からフーリエ変換をすると、波長ごとの振幅がわかる→方法1
+
+
+
+
+### 簡単な問題設定
+- 周期的にくる電車：10分間隔に1回通過
+- 2つの駅間の距離：5km
+- 2つの駅で同時に時刻を計測
+   - 駅1では：0分、10分、20分、30分、40分、50分に電車が通過
+   - 駅2では：5分、15分、25分、35分、45分、55分に電車が通過
+- Q1: この条件での電車の速度と間隔は？
+   - 駅1と駅2の通過時刻の差を計算
+      - 今回は一番短い間隔で5分とする
+- A1:
+   - 電車の速度：5km/5分 = 60km/h
+   - 電車の間隔：60km/h × 10分 = 10km
+
+電車の間隔 → 波の波長
+
+電車の速度 → 波の速度
+
+駅を通過する頻度 → 波の周波数 or 周期
+
+### 
+
+
 ## 1. 微動アレイ観測の基礎理論
 
 ### 1.1 微動とは
@@ -545,3 +580,113 @@ $$\frac{\partial c}{\partial v_s(z)} = K(z) \propto \left| \frac{\partial u}{\pa
 | 20         | 10       | 3.3-5        |
 
 この関係により、異なる周波数の分散曲線から、異なる深さの地下構造情報を得ることができる。
+
+## 付録B: 実体波と表面波の理論式展開
+
+### B.1 波動方程式の基礎
+
+弾性体中の運動方程式（Navier方程式）：
+$$\rho \frac{\partial^2 \mathbf{u}}{\partial t^2} = (\lambda + \mu) \nabla(\nabla \cdot \mathbf{u}) + \mu \nabla^2 \mathbf{u} + \mathbf{f} \tag{B-1}$$
+
+ここで：
+- $\mathbf{u}$：変位ベクトル
+- $\rho$：密度
+- $\lambda, \mu$：ラメ定数
+- $\mathbf{f}$：外力
+
+変位をポテンシャルで表現（Helmholtzの分解）：
+$$\mathbf{u} = \nabla\phi + \nabla \times \boldsymbol{\psi} \tag{B-2}$$
+
+ここで$\phi$はスカラーポテンシャル、$\boldsymbol{\psi}$はベクトルポテンシャル。
+
+### B.2 実体波（Body Waves）
+
+#### B.2.1 P波（縦波）
+スカラーポテンシャル$\phi$に対する波動方程式：
+$$\frac{\partial^2 \phi}{\partial t^2} = v_p^2 \nabla^2 \phi \tag{B-3}$$
+
+P波速度：
+$$v_p = \sqrt{\frac{\lambda + 2\mu}{\rho}} = \sqrt{\frac{E(1-\nu)}{\rho(1+\nu)(1-2\nu)}} \tag{B-4}$$
+
+平面波解：
+$$\phi = A \exp[i(\mathbf{k}_p \cdot \mathbf{r} - \omega t)] \tag{B-5}$$
+
+変位：
+$$\mathbf{u}_p = \nabla\phi = i\mathbf{k}_p A \exp[i(\mathbf{k}_p \cdot \mathbf{r} - \omega t)] \tag{B-6}$$
+
+粒子運動は波の進行方向に平行（縦波）。
+
+#### B.2.2 S波（横波）
+ベクトルポテンシャル$\boldsymbol{\psi}$に対する波動方程式：
+$$\frac{\partial^2 \boldsymbol{\psi}}{\partial t^2} = v_s^2 \nabla^2 \boldsymbol{\psi} \tag{B-7}$$
+
+S波速度：
+$$v_s = \sqrt{\frac{\mu}{\rho}} = \sqrt{\frac{E}{2\rho(1+\nu)}} \tag{B-8}$$
+
+平面波解（SH波の例）：
+$$\psi_z = B \exp[i(k_x x + k_y y - \omega t)] \tag{B-9}$$
+
+変位：
+$$\mathbf{u}_s = \nabla \times \boldsymbol{\psi} = \begin{pmatrix} -ik_y B \\ ik_x B \\ 0 \end{pmatrix} \exp[i(k_x x + k_y y - \omega t)] \tag{B-10}$$
+
+粒子運動は波の進行方向に垂直（横波）。
+
+### B.3 表面波（Surface Waves）
+
+#### B.3.1 レイリー波（Rayleigh Wave）
+
+半無限弾性体（$z \geq 0$）での解を求める。変位ポテンシャルを以下のように仮定：
+$$\phi = A e^{-q_1 z} e^{i(kx - \omega t)} \tag{B-11}$$
+$$\psi_y = B e^{-q_2 z} e^{i(kx - \omega t)} \tag{B-12}$$
+
+ここで、減衰係数は：
+$$q_1 = k\sqrt{1 - \frac{c^2}{v_p^2}}, \quad q_2 = k\sqrt{1 - \frac{c^2}{v_s^2}} \tag{B-13}$$
+
+変位成分：
+$$u_x = \frac{\partial \phi}{\partial x} - \frac{\partial \psi_y}{\partial z} = ik A e^{-q_1 z} + q_2 B e^{-q_2 z} \tag{B-14}$$
+$$u_z = \frac{\partial \phi}{\partial z} + \frac{\partial \psi_y}{\partial x} = -q_1 A e^{-q_1 z} + ik B e^{-q_2 z} \tag{B-15}$$
+
+自由表面での境界条件（$z = 0$で応力ゼロ）：
+$$\sigma_{zz} = \lambda \left(\frac{\partial u_x}{\partial x} + \frac{\partial u_z}{\partial z}\right) + 2\mu \frac{\partial u_z}{\partial z} = 0 \tag{B-16}$$
+$$\sigma_{xz} = \mu \left(\frac{\partial u_x}{\partial z} + \frac{\partial u_z}{\partial x}\right) = 0 \tag{B-17}$$
+
+これらの条件から、レイリー方程式が導かれる：
+$$\left(\frac{c}{v_s}\right)^6 - 8\left(\frac{c}{v_s}\right)^4 + 8\left(3 - 2\frac{v_s^2}{v_p^2}\right)\left(\frac{c}{v_s}\right)^2 - 16\left(1 - \frac{v_s^2}{v_p^2}\right) = 0 \tag{B-18}$$
+
+ポアソン比$\nu = 0.25$の場合、$c_R \approx 0.9194 v_s$。
+
+#### B.3.2 レイリー波の粒子運動
+
+振幅比：
+$$\frac{B}{A} = -\frac{2ikq_1}{k^2 + q_2^2} \tag{B-19}$$
+
+表面での変位（$z = 0$）：
+$$\frac{u_x}{u_z}\bigg|_{z=0} = \frac{ik + q_2 B/A}{-q_1 + ik B/A} \tag{B-20}$$
+
+これにより、粒子は楕円運動を行い、深さとともに振幅が指数関数的に減衰する。
+
+#### B.3.3 ラブ波（Love Wave）
+
+層構造が必要。上層（厚さ$H$、S波速度$v_{s1}$）と半無限下層（S波速度$v_{s2}$、$v_{s2} > v_{s1}$）を考える。
+
+SH波の変位（$y$方向のみ）：
+- 上層：$u_y^{(1)} = [A\cos(p_1 z) + B\sin(p_1 z)]e^{i(kx - \omega t)}$ \tag{B-21}
+- 下層：$u_y^{(2)} = C e^{-q z} e^{i(kx - \omega t)}$ \tag{B-22}
+
+ここで：
+$$p_1 = \frac{\omega}{v_{s1}}\sqrt{1 - \frac{c^2}{v_{s1}^2}}, \quad q = k\sqrt{\frac{c^2}{v_{s2}^2} - 1} \tag{B-23}$$
+
+境界条件から分散関係式：
+$$\tan(p_1 H) = \frac{\mu_2 q}{\mu_1 p_1} \tag{B-24}$$
+
+### B.4 分散性の物理的意味
+
+表面波の分散性は、波長によって「感じる」深さが異なることに起因する：
+
+1. **短波長（高周波）**：浅部の構造に敏感
+2. **長波長（低周波）**：深部まで到達
+
+位相速度$c(\omega)$と群速度$U(\omega)$の関係：
+$$U = \frac{d\omega}{dk} = c - \lambda \frac{dc}{d\lambda} \tag{B-25}$$
+
+正常分散（$dc/d\omega > 0$）の場合、$U < c$となり、波束は個々の波より遅く伝播する。
