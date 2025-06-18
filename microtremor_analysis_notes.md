@@ -216,45 +216,147 @@ $$\rho(r, \omega) = \frac{S_{12}(\omega)}{\sqrt{S_{11}(\omega) S_{22}(\omega)}} 
 観測点2の方位$\alpha$によらないことを示すため、変数変換$\psi = \theta - \alpha$：
 $$\rho(r, \omega) = \frac{1}{2\pi} \int_0^{2\pi} \exp[-ikr\cos\psi] d\psi \tag{2-15}$$
 
-**ステップ5：ベッセル関数の認識**
+**ステップ5：ベッセル関数の認識（Hansenの積分表示）**
 
-オイラーの公式より$\exp[-ikr\cos\psi] = \cos(kr\cos\psi) - i\sin(kr\cos\psi)$。
+第1種$n$次ベッセル関数のHansenの積分表示（一般形）は以下のように与えられる：
 
-虚部の積分について考える。$f(\psi) = \sin(kr\cos\psi)$とおくと、この関数の対称性を調べる：
-$$f(\psi + \pi) = \sin(kr\cos(\psi + \pi)) = \sin(kr(-\cos\psi)) = \sin(-kr\cos\psi) = -\sin(kr\cos\psi) = -f(\psi) \tag{2-15a}$$
+$$J_n(z) = \frac{1}{2\pi i^n} \int_0^{2\pi} e^{iz\cos\theta} e^{in\theta} d\theta \tag{2-15a}$$
 
-これは$f(\psi)$が$\psi = \pi$を中心として奇関数であることを示す。したがって：
-$$\int_0^{2\pi} \sin(kr\cos\psi) d\psi = \int_0^{\pi} \sin(kr\cos\psi) d\psi + \int_{\pi}^{2\pi} \sin(kr\cos\psi) d\psi \tag{2-15b}$$
+特に$n = 0$の場合：
 
-変数変換$\phi = \psi - \pi$を第2項に適用すると：
-$$\int_{\pi}^{2\pi} \sin(kr\cos\psi) d\psi = \int_0^{\pi} \sin(kr\cos(\phi + \pi)) d\phi = -\int_0^{\pi} \sin(kr\cos\phi) d\phi \tag{2-15c}$$
+$$J_0(z) = \frac{1}{2\pi} \int_0^{2\pi} e^{iz\cos\theta} d\theta \tag{2-16}$$
 
-よって虚部の積分はゼロとなる：
-$$\int_0^{2\pi} \sin(kr\cos\psi) d\psi = 0 \tag{2-15d}$$
+式(2-15)の積分は、まさにこの$n = 0$の場合と一致する。
 
-したがって、実部のみが残る：
-$$\rho(r, \omega) = \frac{1}{2\pi} \int_0^{2\pi} \cos(kr\cos\psi) d\psi \tag{2-16}$$
+式(2-15)において$z = -kr$とおくと：
+$$\rho(r, \omega) = \frac{1}{2\pi} \int_0^{2\pi} \exp[-ikr\cos\psi] d\psi = \frac{1}{2\pi} \int_0^{2\pi} e^{i(-kr)\cos\psi} d\psi = J_0(-kr) \tag{2-17}$$
 
-これは第1種0次ベッセル関数の積分表現：
-$$J_0(x) = \frac{1}{2\pi} \int_0^{2\pi} \cos(x\cos\psi) d\psi \tag{2-17}$$
+第1種0次ベッセル関数は偶関数であるため：
+$$J_0(-z) = J_0(z) \tag{2-18}$$
 
 したがって、空間自己相関係数は：
-$$\rho(r, \omega) = J_0(kr) = J_0\left(\frac{2\pi rf}{c(f)}\right) \tag{2-18}$$
+$$\rho(r, \omega) = J_0(kr) = J_0\left(\frac{2\pi rf}{c(f)}\right) \tag{2-19}$$
 
-ここで、$k = \omega/c = 2\pi f/c$の関係を用いた。
+ここで、$k = \omega/c = 2\pi f/c$の関係を用いた。この結果は、等方的な波動場における空間相関が、観測点間距離と波長の比によって決定されることを示している。
 
-#### 物理的イメージ
-- **波長が長い（低周波）**：観測点間の位相差が小さく、高い相関
-- **波長が短い（高周波）**：観測点間の位相差が大きく、相関が振動
-- **ベッセル関数の第1ゼロ点**：$2\pi rf/c \approx 2.4$のとき$\rho = 0$
+#### 物理的イメージ：1次元波動による理解
 
-これにより、相関係数がゼロになる周波数から直接位相速度を推定可能：
-$$c = \frac{2\pi rf}{2.4} \approx 2.6 \cdot rf$$
+##### 1. 単純な正弦波の場合
+まず、最も単純な1次元の正弦波を考える：
+$$u(x,t) = A\sin(kx - \omega t) = A\sin\left(\frac{2\pi}{\lambda}x - 2\pi ft\right)$$
+
+2つの観測点（$x_1 = 0$と$x_2 = r$）での波形は：
+- 観測点1：$u_1(t) = A\sin(-\omega t)$
+- 観測点2：$u_2(t) = A\sin(kr - \omega t)$
+
+位相差は$\Delta\phi = kr = 2\pi r/\lambda$となる。
+
+##### 2. 空間自己相関係数の物理的意味
+空間自己相関係数の定義式は：
+$$\rho_{12} = \frac{\langle u_1(t) u_2(t) \rangle}{\sqrt{\langle u_1^2(t) \rangle \langle u_2^2(t) \rangle}}$$
+
+ここで$\langle \cdot \rangle$は時間平均を表す。
+
+単純な正弦波の場合、$u_1(t) = A\sin(-\omega t)$、$u_2(t) = A\sin(kr - \omega t)$を代入すると：
+
+**分子の計算**：
+$$\langle u_1(t) u_2(t) \rangle = \langle A\sin(-\omega t) \cdot A\sin(kr - \omega t) \rangle$$
+
+三角関数の積の公式：$\sin\alpha \sin\beta = \frac{1}{2}[\cos(\alpha-\beta) - \cos(\alpha+\beta)]$を用いて：
+$$= \frac{A^2}{2} \langle \cos(kr) - \cos(kr - 2\omega t) \rangle$$
+
+時間平均により、時間に依存する項$\cos(kr - 2\omega t)$はゼロになり：
+$$= \frac{A^2}{2} \cos(kr)$$
+
+**分母の計算**：
+$$\langle u_1^2(t) \rangle = \langle A^2\sin^2(-\omega t) \rangle = \frac{A^2}{2}$$
+$$\langle u_2^2(t) \rangle = \langle A^2\sin^2(kr - \omega t) \rangle = \frac{A^2}{2}$$
+
+**結果**：
+$$\rho_{12} = \frac{\frac{A^2}{2} \cos(kr)}{\sqrt{\frac{A^2}{2} \cdot \frac{A^2}{2}}} = \cos(kr) = \cos\left(\frac{2\pi r}{\lambda}\right)$$
+
+これより、相関係数は観測点間の位相差の余弦となる：
+
+- **$r = 0$（同じ場所）**：$\rho = \cos(0) = 1$（完全に一致）
+- **$r = \lambda/4$**：$\rho = \cos(\pi/2) = 0$（位相が90°ずれ、相関なし）
+- **$r = \lambda/2$**：$\rho = \cos(\pi) = -1$（逆位相）
+- **$r = \lambda$**：$\rho = \cos(2\pi) = 1$（再び一致）
+
+##### 3. 等方的波動場での振る舞い
+実際の微動では、波があらゆる方向から到来する。各方向からの波の寄与を足し合わせると：
+
+$$\rho(r) = \frac{1}{2\pi}\int_0^{2\pi} \cos(kr\cos\theta) d\theta = J_0(kr)$$
+
+これがベッセル関数になる理由：
+- 観測点を結ぶ方向に進む波：位相差最大（$kr$）
+- 垂直方向に進む波：位相差ゼロ
+- 全方向の平均がベッセル関数を生む
+
+##### 4. ベッセル関数の特徴的な振る舞い
+$$J_0(x) \text{の性質：}$$
+- $x = 0$で$J_0(0) = 1$（同一点では完全相関）
+- $x \approx 2.405$で初めてゼロ（第1ゼロ点）
+- その後も振動しながら減衰
+
+観測点間距離$r$と波長$\lambda$の関係：
+- **第1ゼロ点**：$kr = 2\pi r/\lambda \approx 2.405$
+- つまり：$r \approx 0.38\lambda$で相関がゼロ
+
+##### 5. 理想的な条件と実用的な意味
+理想的な等方的波動場では：
+- 全方向から等しい強度の波が到来
+- 空間相関はきれいなベッセル関数に従う
+- ゼロ点の位置から波長（したがって位相速度）を推定可能
+
+位相速度の推定：
+$$c = f\lambda = f \cdot \frac{2\pi r}{2.405} \approx 2.6 \cdot rf \tag{2-19a}$$
+
+これが微動アレイ探査の基本原理：観測点間の相関からレイリー波の波長を求め、地下構造を推定する。
+
+##### 6. なぜ空間相関から位相速度が求まるのか：直感的な理解
+
+**基本的なアイデア**：波の「繰り返しパターン」を見つけることで、その波長がわかる
+
+**ステップ1：相関パターンが波長を教えてくれる**
+- 2地点で観測した波形の相関は、その間に何個の波が入るかで決まる
+- 相関が1→0→-1→0→1と変化する周期が、まさに波長に対応
+- ベッセル関数の最初のゼロ点（$r \approx 0.38\lambda$）は、この関係の目印
+
+**ステップ2：測定可能な量から未知の量へ**
+```
+測定できるもの：
+- 観測点間距離 r（メジャーで測れる）
+- 周波数 f（データ解析で求まる）
+- 相関係数 ρ(r,f)（データから計算）
+
+求めたいもの：
+- 波長 λ
+- 位相速度 c = f × λ
+```
+
+**ステップ3：なぜこれで速度がわかるのか**
+
+日常的な例で考えると：
+- 電車が等間隔で並んでいるとき、2つの駅での到着パターンの「ずれ」から電車の速度がわかる
+- 海の波を2地点で観測し、波の山の到着時刻の差から波の速度がわかる
+
+微動の場合：
+1. ある周波数fの波に注目
+2. 空間相関がゼロになる距離を見つける（例：r = 50m）
+3. これが波長の約0.38倍とわかっているので：λ ≈ 50m/0.38 ≈ 130m
+4. 速度は：c = f × λ
+
+**なぜ地下構造がわかるのか**
+- 表面波の速度は、伝わる地盤の硬さで決まる
+- 周波数により侵入深度が異なる（低周波ほど深い）
+- 各周波数での速度を測ることで、深さ方向の地盤の硬さがわかる
+
+つまり、空間相関は「見えない波の波長を測る物差し」の役割を果たしている。
 
 ### 2.2 基本原理
 円形アレイ（中心点＋周辺観測点）での観測データから、空間自己相関係数を計算：
 
-$$\rho(r, f) = \frac{2 \cdot \text{Re}[S_{12}(f)]}{\sqrt{S_{11}(f) \cdot S_{22}(f)}} \tag{2-19}$$
+$$\rho(r, f) = \frac{2 \cdot \text{Re}[S_{12}(f)]}{\sqrt{S_{11}(f) \cdot S_{22}(f)}} \tag{2-20}$$
 
 ここで：
 - $S_{12}(f)$: クロススペクトル密度
@@ -265,7 +367,7 @@ $$\rho(r, f) = \frac{2 \cdot \text{Re}[S_{12}(f)]}{\sqrt{S_{11}(f) \cdot S_{22}(
 ### 2.3 位相速度の推定
 空間自己相関係数は第1種0次ベッセル関数で表現される：
 
-$$\rho(r, f) = J_0\left(\frac{2\pi rf}{c(f)}\right) \tag{2-20}$$
+$$\rho(r, f) = J_0\left(\frac{2\pi rf}{c(f)}\right) \tag{2-21}$$
 
 これを逆解析することで位相速度 $c(f)$ を求める。
 
