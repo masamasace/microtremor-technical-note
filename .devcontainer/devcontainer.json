@@ -1,0 +1,66 @@
+{
+  "name": "Claude on WSL2 for 2025-06-20 TTS",
+  
+  // 既存のイメージを直接指定
+  "image": "claude_github_pages:latest",
+  
+  // コンテナ内のワーキングディレクトリ
+  "workspaceFolder": "/workspaces",
+  
+  // ボリュームマウント設定
+  "mounts": [
+    // プロジェクトフォルダ全体をマウント
+    "source=${localWorkspaceFolder},target=/workspaces,type=bind",
+    
+    // 追加で他のフォルダもマウント可能
+    "source=${localWorkspaceFolder}/../共有データ,target=/shared-data,type=bind,consistency=cached",
+    "source=${localWorkspaceFolder}/../参考文献,target=/references,type=bind,consistency=cached"
+  ],
+  
+  
+  // コンテナ作成後に実行するコマンド
+  "postCreateCommand": [
+    "bash", "-c", 
+    "echo 'Dev Container ready!' && echo 'Current directory:' && pwd && echo 'Available files:' && ls -la"
+  ],
+  
+  // VSCode拡張機能の自動インストール
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "github.copilot"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "python.terminal.activateEnvironment": true,
+        "terminal.integrated.shell.linux": "/bin/bash"
+      }
+    }
+  },
+  
+  // コンテナのランタイム設定
+  "runArgs": [
+    "--name=vsc-36-new-project",
+    "--hostname=dev-container",
+    "--restart=unless-stopped"
+  ],
+  
+  // ユーザー設定
+  "remoteUser": "root",
+  "containerUser": "root",
+  
+  // 環境変数
+  "containerEnv": {
+    "PROJECT_NAME": "claude_2025_06_20_tts",
+    "PYTHONPATH": "/workspace:/shared-data",
+    "TZ": "Asia/Tokyo"
+  },
+  
+  // コンテナの機能追加
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  }
+}
