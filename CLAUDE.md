@@ -83,7 +83,7 @@ from utils.microtremor_utils import MicrotremorArray, spac_coefficient, fk_analy
 - Mathematical notation: LaTeX in markdown (例: $c(f) = f \times \lambda$)
 - Jupyter notebooks: 日本語での解説と英語コード
 - Markdown and Jupyter notebooks: 日本語の記述言語として使用可能
-- ipynb中の判例やticklabel、textには日本語は使用しない
+- ipynb中で出力される図表内部の文字は英語を使用する。また積極的にlabel内でlatex表現も用いる
 
 ## Workflow Guidelines
 

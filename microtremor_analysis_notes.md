@@ -168,7 +168,19 @@ $$S_A(\theta, \omega) = S_0(\omega) = \text{const} \tag{2-9}$$
 式(2-7)に式(2-8)を適用すると：
 $$S_{12}(\omega) = \int_0^{2\pi} \int_0^{2\pi} S_0(\omega) \delta(\theta_1 - \theta_2) \exp[-ikr\cos(\theta_2 - \alpha)] d\theta_1 d\theta_2 \tag{2-10}$$
 
-デルタ関数により$\theta_1$についての積分が実行され：
+デルタ関数の性質を用いて$\theta_1$についての積分を実行する。デルタ関数の定義より：
+$$\int_0^{2\pi} f(\theta_1) \delta(\theta_1 - \theta_2) d\theta_1 = \begin{cases}
+f(\theta_2) & \text{if } 0 \leq \theta_2 \leq 2\pi \\
+0 & \text{otherwise}
+\end{cases} \tag{2-10a}$$
+
+ここで$f(\theta_1) = 1$なので：
+$$S_{12}(\omega) = S_0(\omega) \int_0^{2\pi} \left[\int_0^{2\pi} \delta(\theta_1 - \theta_2) d\theta_1\right] \exp[-ikr\cos(\theta_2 - \alpha)] d\theta_2 \tag{2-10b}$$
+
+内側の積分は$\theta_2 \in [0, 2\pi]$のとき1となるため：
+$$S_{12}(\omega) = S_0(\omega) \int_0^{2\pi} \exp[-ikr\cos(\theta_2 - \alpha)] d\theta_2 \tag{2-11}$$
+
+変数を$\theta = \theta_2$と書き直すと：
 $$S_{12}(\omega) = S_0(\omega) \int_0^{2\pi} \exp[-ikr\cos(\theta - \alpha)] d\theta \tag{2-11}$$
 
 **ステップ3：パワースペクトル密度の計算**
