@@ -83,10 +83,19 @@ from utils.microtremor_utils import MicrotremorArray, spac_coefficient, fk_analy
 - Mathematical notation: LaTeX in markdown (例: $c(f) = f \times \lambda$)
 - Jupyter notebooks: 日本語での解説と英語コード
 - Markdown and Jupyter notebooks: 日本語の記述言語として使用可能
+- ipynb中の判例やticklabel、textには日本語は使用しない
 
 ## Workflow Guidelines
 
 1. データ解析時は必ず品質チェックを実施
 2. 新しい解析手法追加時は`microtremor_utils.py`に実装
 3. 実装完了時はREADME.mdに更新履歴を記載
-4. タスク完了時にgit commitする
+4. タスク完了時にgit commitする。コメントは自動で生成する。claude code による自動生成であることを明記する。
+
+## Documentation Guidelines
+
+- 独立数式にはすべて番号を振ること。レベル2見出しごとに振り直す (2-1, 3-2など)
+
+## Memory Notes
+
+- compactコマンドを実行した後にはかならず、 @CLAUDE.md を参照すること

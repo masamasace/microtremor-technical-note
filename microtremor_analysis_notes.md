@@ -111,6 +111,93 @@ $$\text{探査深度} \approx \frac{\lambda}{2} \sim \frac{\lambda}{3}$$
 ### 2.1 理論的背景
 SPAC法（Spatial Autocorrelation Method）は、Aki (1957) により提案された手法で、微動の空間的な相関を利用して位相速度を推定する。
 
+#### なぜ空間相関から位相速度が推定できるのか
+
+##### 直感的な理解
+2つの観測点で同じ波を観測する場合を考える：
+1. **観測点間距離が波長の整数倍**：波形が完全に一致（相関係数 = 1）
+2. **観測点間距離が波長の半整数倍**：波形が逆位相（相関係数 = -1）
+3. **その他の距離**：中間的な相関値
+
+この相関の周期性から波長を推定でき、周波数との関係から位相速度が求まる。
+
+##### 数学的な導出：2点間相関からベッセル関数へ
+
+座標原点に観測点1、そこから距離$r$離れた位置に観測点2を配置する。SPAC法では各周波数成分を独立に解析するため、特定の角周波数$\omega$（周波数$f = \omega/2\pi$）の成分に着目する。方位角$\theta$から到来する平面波を考えると、各観測点での波動場は：
+
+観測点1（原点）：
+$$u_1(t, \omega) = \int_0^{2\pi} A(\theta, \omega) \exp[-i\omega t] d\theta \tag{2-1}$$
+
+観測点2（距離$r$）：
+$$u_2(t, \omega) = \int_0^{2\pi} A(\theta, \omega) \exp[ikr\cos(\theta - \alpha) - i\omega t] d\theta \tag{2-2}$$
+
+ここで：
+- $A(\theta, \omega)$：方位角$\theta$方向からの周波数$\omega$の波の複素振幅
+- $k = 2\pi f/c = \omega/c$：波数（周波数依存）
+- $\alpha$：観測点2の方位角
+- $r\cos(\theta - \alpha)$：波の進行方向への投影距離
+
+**ステップ1：相関関数の計算**
+
+時間平均を用いた相関関数（特定周波数$\omega$について）：
+$$\langle u_1(t, \omega) u_2^*(t, \omega) \rangle = \lim_{T \to \infty} \frac{1}{T} \int_0^T u_1(t, \omega) u_2^*(t, \omega) dt \tag{2-3}$$
+
+式(2-1)と(2-2)を代入：
+$$\langle u_1(t, \omega) u_2^*(t, \omega) \rangle = \lim_{T \to \infty} \frac{1}{T} \int_0^T \left[\int_0^{2\pi} A(\theta_1, \omega) e^{-i\omega t} d\theta_1\right] \left[\int_0^{2\pi} A^*(\theta_2, \omega) e^{-ikr\cos(\theta_2 - \alpha) + i\omega t} d\theta_2\right] dt \tag{2-4}$$
+
+**ステップ2：時間積分の実行**
+
+式(2-4)の時間積分を先に実行する。積分の順序を交換して：
+$$\langle u_1(t, \omega) u_2^*(t, \omega) \rangle = \int_0^{2\pi} \int_0^{2\pi} A(\theta_1, \omega) A^*(\theta_2, \omega) e^{-ikr\cos(\theta_2 - \alpha)} \left[\lim_{T \to \infty} \frac{1}{T} \int_0^T e^{-i\omega t} e^{i\omega t} dt\right] d\theta_1 d\theta_2 \tag{2-4a}$$
+
+ここで重要な点は、微動が定常確率過程であることから、異なる方向からの波は統計的に独立（非相関）であると仮定できる。すなわち、特定周波数$\omega$において：
+$$A(\theta_1, \omega) A^*(\theta_2, \omega) = |A(\theta, \omega)|^2 \delta(\theta_1 - \theta_2) \tag{2-4b}$$
+
+この仮定により、時間積分は：
+$$\lim_{T \to \infty} \frac{1}{T} \int_0^T dt = 1 \quad \text{（$\theta_1 = \theta_2$のとき）} \tag{2-4c}$$
+
+したがって：
+$$\langle u_1(t, \omega) u_2^*(t, \omega) \rangle = \int_0^{2\pi} \int_0^{2\pi} |A(\theta, \omega)|^2 e^{-ikr\cos(\theta - \alpha)} \delta(\theta_1 - \theta_2) d\theta_1 d\theta_2 \tag{2-5}$$
+
+デルタ関数により$\theta_1$についての積分が実行され：
+$$\langle u_1(t, \omega) u_2^*(t, \omega) \rangle = \int_0^{2\pi} |A(\theta, \omega)|^2 e^{-ikr\cos(\theta - \alpha)} d\theta \tag{2-5a}$$
+
+等方的な波動場の仮定（$|A(\theta, \omega)|^2 = \text{const} = A_0^2(\omega)$）より：
+$$\langle u_1(t, \omega) u_2^*(t, \omega) \rangle = A_0^2(\omega) \int_0^{2\pi} e^{-ikr\cos(\theta - \alpha)} d\theta \tag{2-6}$$
+
+**ステップ3：パワーの計算**
+
+同様に各点でのパワー（特定周波数$\omega$について）：
+$$\langle |u_1(t, \omega)|^2 \rangle = \langle |u_2(t, \omega)|^2 \rangle = 2\pi A_0^2(\omega) \tag{2-7}$$
+
+**ステップ4：正規化された相関係数**
+
+$$\rho(r, \omega) = \frac{\langle u_1(t, \omega) u_2^*(t, \omega) \rangle}{\sqrt{\langle |u_1(t, \omega)|^2 \rangle \langle |u_2(t, \omega)|^2 \rangle}} = \frac{A_0^2(\omega) \int_0^{2\pi} e^{-ikr\cos(\theta - \alpha)} d\theta}{2\pi A_0^2(\omega)} \tag{2-8}$$
+
+観測点2の方位$\alpha$によらないことを示すため、変数変換$\psi = \theta - \alpha$：
+$$\rho(r, f) = \frac{1}{2\pi} \int_0^{2\pi} e^{-ikr\cos\psi} d\psi \tag{2-9}$$
+
+**ステップ5：ベッセル関数の認識**
+
+オイラーの公式より$e^{-ikr\cos\psi} = \cos(kr\cos\psi) - i\sin(kr\cos\psi)$。
+$\sin(kr\cos\psi)$の積分は奇関数のためゼロ：
+
+$$\rho(r, f) = \frac{1}{2\pi} \int_0^{2\pi} \cos(kr\cos\psi) d\psi \tag{2-10}$$
+
+これは第1種0次ベッセル関数の積分表現：
+$$J_0(x) = \frac{1}{2\pi} \int_0^{2\pi} \cos(x\cos\psi) d\psi \tag{2-11}$$
+
+したがって：
+$$\rho(r, f) = J_0(kr) = J_0\left(\frac{2\pi rf}{c(f)}\right) \tag{2-12}$$
+
+#### 物理的イメージ
+- **波長が長い（低周波）**：観測点間の位相差が小さく、高い相関
+- **波長が短い（高周波）**：観測点間の位相差が大きく、相関が振動
+- **ベッセル関数の第1ゼロ点**：$2\pi rf/c \approx 2.4$のとき$\rho = 0$
+
+これにより、相関係数がゼロになる周波数から直接位相速度を推定可能：
+$$c = \frac{2\pi rf}{2.4} \approx 2.6 \cdot rf$$
+
 ### 2.2 基本原理
 円形アレイ（中心点＋周辺観測点）での観測データから、空間自己相関係数を計算：
 
