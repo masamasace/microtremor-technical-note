@@ -123,72 +123,83 @@ SPAC法（Spatial Autocorrelation Method）は、Aki (1957) により提案さ�
 
 ##### 数学的な導出：2点間相関からベッセル関数へ
 
-座標原点に観測点1、そこから距離$r$離れた位置に観測点2を配置する。SPAC法では各周波数成分を独立に解析するため、特定の角周波数$\omega$（周波数$f = \omega/2\pi$）の成分に着目する。方位角$\theta$から到来する平面波を考えると、各観測点での波動場は：
+座標原点に観測点1（位置ベクトル$\mathbf{r}_1 = \mathbf{0}$）、そこから距離$r$離れた位置に観測点2（位置ベクトル$\mathbf{r}_2$）を配置する。SPAC法では各周波数成分を独立に解析するため、特定の角周波数$\omega$（周波数$f = \omega/2\pi$）の成分に着目する。
 
-観測点1（原点）：
-$$u_1(t, \omega) = \int_0^{2\pi} A(\theta, \omega) \exp[-i\omega t] d\theta \tag{2-1}$$
+周波数領域での波動場は、全方位から到来する平面波の重ね合わせとして表現される：
 
-観測点2（距離$r$）：
-$$u_2(t, \omega) = \int_0^{2\pi} A(\theta, \omega) \exp[ikr\cos(\theta - \alpha) - i\omega t] d\theta \tag{2-2}$$
+$$u(\mathbf{r}, \omega) = \int_0^{2\pi} A(\theta, \omega) \exp[i\mathbf{k}(\theta) \cdot \mathbf{r}] d\theta \tag{2-1}$$
 
 ここで：
+- $\mathbf{k}(\theta) = k[\cos\theta, \sin\theta]^T$：方位角$\theta$方向の波数ベクトル
+- $k = |\mathbf{k}| = \omega/c = 2\pi f/c$：波数の大きさ
 - $A(\theta, \omega)$：方位角$\theta$方向からの周波数$\omega$の波の複素振幅
-- $k = 2\pi f/c = \omega/c$：波数（周波数依存）
-- $\alpha$：観測点2の方位角
-- $r\cos(\theta - \alpha)$：波の進行方向への投影距離
+- $c$：位相速度
+
+観測点1（原点）での波動場：
+$$u(\mathbf{r}_1, \omega) = u(\mathbf{0}, \omega) = \int_0^{2\pi} A(\theta, \omega) d\theta \tag{2-2}$$
+
+観測点2（位置$\mathbf{r}_2$）での波動場：
+$$u(\mathbf{r}_2, \omega) = \int_0^{2\pi} A(\theta, \omega) \exp[i\mathbf{k}(\theta) \cdot \mathbf{r}_2] d\theta \tag{2-3}$$
+
+観測点2が観測点1から距離$r$、方位角$\alpha$の位置にある場合、$\mathbf{r}_2 = r[\cos\alpha, \sin\alpha]^T$より：
+$$\mathbf{k}(\theta) \cdot \mathbf{r}_2 = kr\cos(\theta - \alpha) \tag{2-4}$$
 
 **ステップ1：相関関数の計算**
 
-時間平均を用いた相関関数（特定周波数$\omega$について）：
-$$\langle u_1(t, \omega) u_2^*(t, \omega) \rangle = \lim_{T \to \infty} \frac{1}{T} \int_0^T u_1(t, \omega) u_2^*(t, \omega) dt \tag{2-3}$$
+周波数領域での2点間のクロススペクトル密度は：
+$$S_{12}(\omega) = \langle u(\mathbf{r}_1, \omega) u^*(\mathbf{r}_2, \omega) \rangle \tag{2-5}$$
 
-式(2-1)と(2-2)を代入：
-$$\langle u_1(t, \omega) u_2^*(t, \omega) \rangle = \lim_{T \to \infty} \frac{1}{T} \int_0^T \left[\int_0^{2\pi} A(\theta_1, \omega) e^{-i\omega t} d\theta_1\right] \left[\int_0^{2\pi} A^*(\theta_2, \omega) e^{-ikr\cos(\theta_2 - \alpha) + i\omega t} d\theta_2\right] dt \tag{2-4}$$
+ここで、$\langle \cdot \rangle$はアンサンブル平均を表す。式(2-2)と(2-3)を代入：
+$$S_{12}(\omega) = \left\langle \int_0^{2\pi} A(\theta_1, \omega) d\theta_1 \cdot \left[\int_0^{2\pi} A^*(\theta_2, \omega) \exp[-i\mathbf{k}(\theta_2) \cdot \mathbf{r}_2] d\theta_2\right] \right\rangle \tag{2-6}$$
 
-**ステップ2：時間積分の実行**
+式(2-4)を用いて：
+$$S_{12}(\omega) = \left\langle \int_0^{2\pi} \int_0^{2\pi} A(\theta_1, \omega) A^*(\theta_2, \omega) \exp[-ikr\cos(\theta_2 - \alpha)] d\theta_1 d\theta_2 \right\rangle \tag{2-7}$$
 
-式(2-4)の時間積分を先に実行する。積分の順序を交換して：
-$$\langle u_1(t, \omega) u_2^*(t, \omega) \rangle = \int_0^{2\pi} \int_0^{2\pi} A(\theta_1, \omega) A^*(\theta_2, \omega) e^{-ikr\cos(\theta_2 - \alpha)} \left[\lim_{T \to \infty} \frac{1}{T} \int_0^T e^{-i\omega t} e^{i\omega t} dt\right] d\theta_1 d\theta_2 \tag{2-4a}$$
+**ステップ2：等方的波動場の仮定**
 
-ここで重要な点は、微動が定常確率過程であることから、異なる方向からの波は統計的に独立（非相関）であると仮定できる。すなわち、特定周波数$\omega$において：
-$$A(\theta_1, \omega) A^*(\theta_2, \omega) = |A(\theta, \omega)|^2 \delta(\theta_1 - \theta_2) \tag{2-4b}$$
+微動が定常確率過程であり、異なる方向からの波は統計的に独立（非相関）であると仮定する。すなわち：
+$$\langle A(\theta_1, \omega) A^*(\theta_2, \omega) \rangle = S_A(\theta, \omega) \delta(\theta_1 - \theta_2) \tag{2-8}$$
 
-この仮定により、時間積分は：
-$$\lim_{T \to \infty} \frac{1}{T} \int_0^T dt = 1 \quad \text{（$\theta_1 = \theta_2$のとき）} \tag{2-4c}$$
+ここで、$S_A(\theta, \omega)$は方位角$\theta$方向からの波のパワースペクトル密度。
 
-したがって：
-$$\langle u_1(t, \omega) u_2^*(t, \omega) \rangle = \int_0^{2\pi} \int_0^{2\pi} |A(\theta, \omega)|^2 e^{-ikr\cos(\theta - \alpha)} \delta(\theta_1 - \theta_2) d\theta_1 d\theta_2 \tag{2-5}$$
+等方的な波動場の仮定では、全方位から等しい強度の波が到来するため：
+$$S_A(\theta, \omega) = S_0(\omega) = \text{const} \tag{2-9}$$
+
+式(2-7)に式(2-8)を適用すると：
+$$S_{12}(\omega) = \int_0^{2\pi} \int_0^{2\pi} S_0(\omega) \delta(\theta_1 - \theta_2) \exp[-ikr\cos(\theta_2 - \alpha)] d\theta_1 d\theta_2 \tag{2-10}$$
 
 デルタ関数により$\theta_1$についての積分が実行され：
-$$\langle u_1(t, \omega) u_2^*(t, \omega) \rangle = \int_0^{2\pi} |A(\theta, \omega)|^2 e^{-ikr\cos(\theta - \alpha)} d\theta \tag{2-5a}$$
+$$S_{12}(\omega) = S_0(\omega) \int_0^{2\pi} \exp[-ikr\cos(\theta - \alpha)] d\theta \tag{2-11}$$
 
-等方的な波動場の仮定（$|A(\theta, \omega)|^2 = \text{const} = A_0^2(\omega)$）より：
-$$\langle u_1(t, \omega) u_2^*(t, \omega) \rangle = A_0^2(\omega) \int_0^{2\pi} e^{-ikr\cos(\theta - \alpha)} d\theta \tag{2-6}$$
+**ステップ3：パワースペクトル密度の計算**
 
-**ステップ3：パワーの計算**
+各観測点でのパワースペクトル密度：
+$$S_{11}(\omega) = \langle |u(\mathbf{r}_1, \omega)|^2 \rangle = S_0(\omega) \int_0^{2\pi} d\theta = 2\pi S_0(\omega) \tag{2-12}$$
 
-同様に各点でのパワー（特定周波数$\omega$について）：
-$$\langle |u_1(t, \omega)|^2 \rangle = \langle |u_2(t, \omega)|^2 \rangle = 2\pi A_0^2(\omega) \tag{2-7}$$
+$$S_{22}(\omega) = \langle |u(\mathbf{r}_2, \omega)|^2 \rangle = S_0(\omega) \int_0^{2\pi} d\theta = 2\pi S_0(\omega) \tag{2-13}$$
 
-**ステップ4：正規化された相関係数**
+**ステップ4：正規化された空間自己相関係数**
 
-$$\rho(r, \omega) = \frac{\langle u_1(t, \omega) u_2^*(t, \omega) \rangle}{\sqrt{\langle |u_1(t, \omega)|^2 \rangle \langle |u_2(t, \omega)|^2 \rangle}} = \frac{A_0^2(\omega) \int_0^{2\pi} e^{-ikr\cos(\theta - \alpha)} d\theta}{2\pi A_0^2(\omega)} \tag{2-8}$$
+空間自己相関係数は以下のように定義される：
+$$\rho(r, \omega) = \frac{S_{12}(\omega)}{\sqrt{S_{11}(\omega) S_{22}(\omega)}} = \frac{S_0(\omega) \int_0^{2\pi} \exp[-ikr\cos(\theta - \alpha)] d\theta}{2\pi S_0(\omega)} \tag{2-14}$$
 
 観測点2の方位$\alpha$によらないことを示すため、変数変換$\psi = \theta - \alpha$：
-$$\rho(r, f) = \frac{1}{2\pi} \int_0^{2\pi} e^{-ikr\cos\psi} d\psi \tag{2-9}$$
+$$\rho(r, \omega) = \frac{1}{2\pi} \int_0^{2\pi} \exp[-ikr\cos\psi] d\psi \tag{2-15}$$
 
 **ステップ5：ベッセル関数の認識**
 
-オイラーの公式より$e^{-ikr\cos\psi} = \cos(kr\cos\psi) - i\sin(kr\cos\psi)$。
+オイラーの公式より$\exp[-ikr\cos\psi] = \cos(kr\cos\psi) - i\sin(kr\cos\psi)$。
 $\sin(kr\cos\psi)$の積分は奇関数のためゼロ：
 
-$$\rho(r, f) = \frac{1}{2\pi} \int_0^{2\pi} \cos(kr\cos\psi) d\psi \tag{2-10}$$
+$$\rho(r, \omega) = \frac{1}{2\pi} \int_0^{2\pi} \cos(kr\cos\psi) d\psi \tag{2-16}$$
 
 これは第1種0次ベッセル関数の積分表現：
-$$J_0(x) = \frac{1}{2\pi} \int_0^{2\pi} \cos(x\cos\psi) d\psi \tag{2-11}$$
+$$J_0(x) = \frac{1}{2\pi} \int_0^{2\pi} \cos(x\cos\psi) d\psi \tag{2-17}$$
 
-したがって：
-$$\rho(r, f) = J_0(kr) = J_0\left(\frac{2\pi rf}{c(f)}\right) \tag{2-12}$$
+したがって、空間自己相関係数は：
+$$\rho(r, \omega) = J_0(kr) = J_0\left(\frac{2\pi rf}{c(f)}\right) \tag{2-18}$$
+
+ここで、$k = \omega/c = 2\pi f/c$の関係を用いた。
 
 #### 物理的イメージ
 - **波長が長い（低周波）**：観測点間の位相差が小さく、高い相関
@@ -201,17 +212,18 @@ $$c = \frac{2\pi rf}{2.4} \approx 2.6 \cdot rf$$
 ### 2.2 基本原理
 円形アレイ（中心点＋周辺観測点）での観測データから、空間自己相関係数を計算：
 
-$$\rho(r, f) = \frac{2 \cdot \text{Re}[S_{12}(f)]}{\sqrt{S_{11}(f) \cdot S_{22}(f)}}$$
+$$\rho(r, f) = \frac{2 \cdot \text{Re}[S_{12}(f)]}{\sqrt{S_{11}(f) \cdot S_{22}(f)}} \tag{2-19}$$
 
 ここで：
-- $S_{12}(f)$: クロススペクトル
-- $S_{11}(f), S_{22}(f)$: オートスペクトル
+- $S_{12}(f)$: クロススペクトル密度
+- $S_{11}(f), S_{22}(f)$: パワースペクトル密度
 - $r$: 観測点間距離
+- $\text{Re}[\cdot]$: 実部（等方的波動場では虚部はゼロ）
 
 ### 2.3 位相速度の推定
 空間自己相関係数は第1種0次ベッセル関数で表現される：
 
-$$\rho(r, f) = J_0\left(\frac{2\pi rf}{c(f)}\right)$$
+$$\rho(r, f) = J_0\left(\frac{2\pi rf}{c(f)}\right) \tag{2-20}$$
 
 これを逆解析することで位相速度 $c(f)$ を求める。
 
