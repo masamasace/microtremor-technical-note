@@ -10,10 +10,9 @@
 
 ### 数式で表現すると
 
-$$
-a(x, t) = \sum_{i} A_i \sin(k_i x - \omega_i t + \phi_i) 
-\tag{1}
-$$
+```math
+a(x, t) = \sum_{i} A_i \sin(k_i x - \omega_i t + \phi_i) \tag{1} 
+```
 
 - 目的1で知りたいのは位相速度 $c_i$ であり、これは波数 $k_i$ と振動数 $f_i$ から求められる：
    - $c_i = \omega_i / k_i = f_i \lambda_i$
