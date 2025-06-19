@@ -99,3 +99,7 @@ from utils.microtremor_utils import MicrotremorArray, spac_coefficient, fk_analy
 ## Memory Notes
 
 - compactコマンドを実行した後にはかならず、 @CLAUDE.md を参照すること
+
+## Animation Guidelines
+
+- アニメーションを作成する際には静止画バージョンは作成する必要はないです。アニメーション単体を生成するコードを作成してください。
