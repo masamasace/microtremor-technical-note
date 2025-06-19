@@ -1,6 +1,6 @@
 # 微動アレイ観測解析手法 - 技術ノート
 
-## 微動アレイ観測でなにが知りたいのか
+## 1. 微動アレイ観測でなにが知りたいのか
 
 - 目的
    - 目的1：波の振動数ごとの速度が知りたい
@@ -8,27 +8,27 @@
    - 目的2：地盤のS波速度分布を知りたい
 - これの簡単な説明はパワーポイント資料を参照
 
-### 数式で表現すると
+### 1.1 数式で表現すると
 
-```math
-a(x, t) = \sum_{i} A_i \sin(k_i x - \omega_i t + \phi_i) \tag{1} 
-```
+$$
+a(x, t) = \sum_{i} A_i \sin(k_i x - \omega_i t + \phi_i) \hspace{30pt} (1) 
+$$
 
 - 目的1で知りたいのは位相速度 $c_i$ であり、これは波数 $k_i$ と振動数 $f_i$ から求められる：
    - $c_i = \omega_i / k_i = f_i \lambda_i$
-   - より正確な表現でいうと、ある $\omega_i$と$k_i$に対してその波がどれぐらい強く含まれているのか$A_i$が知りたい。
-- ここで、$a(x, t)$は位置$x$と時刻$t$における波の振幅、$A_i$は$i$番目の波の振幅、$k_i$は波数、$\omega_i$は角振動数、$\phi_i$は位相を表す。
+   - より正確な表現でいうと、ある $\omega_i$ と $k_i$ に対してその波がどれぐらい強く含まれているのか $A_i$ が知りたい。
+- ここで、 $a(x, t)$ は位置 $x$ と時刻 $t$ における波の振幅、 $A_i$ は $i$ 番目の波の振幅、 $k_i$ は波数、 $\omega_i$ は角振動数、 $\phi_i$ は位相を表す。
    - 波数と波長の関係
       - $k_i = 2 \pi / \lambda_i$
    - 振動数と周期の関係
       - $\omega_i = 2 \pi f_i$
-   - 実際に測れるのは、左側の$a(x, t)$だけであり、右側の各成分（$A_i$, $k_i$, $\omega_i$, $\phi_i$）は直接的には測定できない。
-      - もう少し言うと、ある時間間隔、ある特定の位置における$a(x_m, t_n)$の値しかわからない。(離散化された状態)
-   - 求めたいのは $A(\omega_i, k_i, \phi_i)$の値。
+   - 実際に測れるのは、左側の $a(x, t)$ だけであり、右側の各成分（ $A_i$, $k_i$, $\omega_i$, $\phi_i$ ）は直接的には測定できない。
+      - もう少し言うと、ある時間間隔、ある特定の位置における $a(x_m, t_n)$ の値しかわからない。(離散化された状態)
+   - 求めたいのは $A(\omega_i, k_i, \phi_i)$ の値。
 
 それではどうしようか？
 
-### 大崎先生の本で習ったフーリエ変換
+### 1.2 大崎先生の本で習ったフーリエ変換
 
 大崎先生の本で出てきたフーリエ変換は時間領域の信号を周波数領域に変換するもの。
 
@@ -42,20 +42,20 @@ $$
 A(\omega_i, x) = \sum_{n} a(x, t_n) e^{-i \omega_i t_n} \Delta t
 $$
 
-この $A(\omega_i, x)$に対してさらに位置$x$に関するフーリエ変換を行う。
+この $A(\omega_i, x)$ に対してさらに位置 $x$ に関するフーリエ変換を行う。
 
 $$
 A(k_i, \omega_i) = \sum_{m} A(\omega_i, x_m) e^{-i k_i x_m} \Delta x
 $$
 
-このようにして、位置$x$と時刻$t$に依存する波の振幅を、波数$k_i$と振動数$\omega_i$に依存する振幅に変換できる。→ F-K変換と呼ばれる手法
+このようにして、位置 $x$ と時刻 $t$ に依存する波の振幅を、波数 $k_i$ と振動数 $\omega_i$ に依存する振幅に変換できる。→ F-K変換と呼ばれる手法
 
-## もう一つの方法
+## 2. もう一つの方法
 
 もう一つの方法は、空間的な自己相関を利用する方法で、SPAC法（Spatial Autocorrelation Method）と呼ばれる。
 
 
-### 簡単な問題設定
+### 2.1 簡単な問題設定
 - 周期的にくる電車：10分間隔に1回通過
 - 2つの駅間の距離：5km
 - 2つの駅で同時に時刻を計測
@@ -68,29 +68,29 @@ $$
    - 電車の速度：5km/5分 = 60km/h
    - 電車の間隔：60km/h × 10分 = 10km
 
-#### 別解
+#### 2.1.1 別解
 
-#### 上の問題を波に置き換えると
+#### 2.1.2 上の問題を波に置き換えると
 - 電車の間隔 → 波の波長
 - 電車の速度 → 波の速度
 - 駅を通過する頻度 → 波の周波数 or 周期
 
-### 1次元の波の式で考えてみる
+### 2.2 1次元の波の式で考えてみる
 
 $$
 u(x, t) = A \sin(kx - \omega t + \phi) 
-\tag{2}
+\hspace{30pt} (2)
 $$
 
-- $u(x, t)$：位置$x$と時刻$t$における波の振幅
-- $A$：波の振幅
-- $k$：波数（$k = 2\pi / \lambda$）
-   - $\lambda$：波長
-- $\omega$：角振動数（$\omega = 2\pi f$
-   - $f$：振動数
-- $\phi$：位相
+- $u(x, t)$ ：位置 $x$ と時刻 $t$ における波の振幅
+- $A$ ：波の振幅
+- $k$ ：波数（ $k = 2\pi / \lambda$ ）
+   - $\lambda$ ：波長
+- $\omega$ ：角振動数（ $\omega = 2\pi f$ 
+   - $f$ ：振動数
+- $\phi$ ：位相
 
-いま、2つの観測点で波を観測したとする。($x = 0$と$x = r$)
+いま、2つの観測点で波を観測したとする。( $x = 0$ と $x = r$ )
 
 $$
 u_1(t) = A \sin(-\omega t + \phi) \\
@@ -118,13 +118,13 @@ $$
 したがって、時間平均は次のようになる。
 
 $$
-\langle u_1(t) u_2(t) \rangle = \frac{A^2}{2} \cos(kr) \tag{3}
+\langle u_1(t) u_2(t) \rangle = \frac{A^2}{2} \cos(kr) \hspace{30pt} (3)
 $$
 
 同じようにu_1(t)同士での積の時間平均と、u_2(t)同士での積の時間平均を計算すると、どちらも $\frac{A^2}{2}$ になる。
 
 $$
-\langle u_1(t) u_1(t) \rangle = \langle u_2(t) u_2(t) \rangle = \frac{A^2}{2} \tag{4}
+\langle u_1(t) u_1(t) \rangle = \langle u_2(t) u_2(t) \rangle = \frac{A^2}{2} \hspace{30pt} (4)
 $$
 
 なので、式(3)を式(4)で割ると、
@@ -132,7 +132,7 @@ $$
 $$
 \begin{align*}
 \frac{\langle u_1(t) u_2(t) \rangle}{\sqrt{\langle u_1(t) u_1(t) \rangle \langle u_2(t) u_2(t) \rangle}} 
-= \frac{\frac{A^2}{2} \cos(kr)}{\sqrt{\frac{A^2}{2} \cdot \frac{A^2}{2}}} = \cos(kr) = \cos\left(\frac{2\pi r}{\lambda}\right) \tag{5}
+= \frac{\frac{A^2}{2} \cos(kr)}{\sqrt{\frac{A^2}{2} \cdot \frac{A^2}{2}}} = \cos(kr) = \cos\left(\frac{2\pi r}{\lambda}\right) \hspace{30pt} (5)
 \end{align*}
 $$
 
@@ -156,7 +156,7 @@ $$
 
 このようにすることで、特定の周波数 $\omega$に対する位相速度$c$を計算できる。
 
-#### 補足
+#### 2.2.1 補足
 
 - F-K変換で得られるものと、この相関で得られる結果って何か違くない？ (F-k変換では振幅も求まるけど、相関では振幅は求まらないのでは？)
    - F-K変換は、時間領域の信号を周波数-波数領域に変換する手法であり、特定の周波数成分に対する振幅と位相を求めることができる。
@@ -166,7 +166,7 @@ $$
       - 別の言い方をすればF-k変換のうち最も振幅が大きいところを選ぶことで、SPAC法と同じ結果が得られる。
 
 
-## 1. 微動アレイ観測の基礎理論
+## 3. 微動アレイ観測の基礎理論
 
 ### 1.1 微動とは
 微動（microtremor）は、地盤に常時存在する微小振動であり、主に以下の要因により発生する：
@@ -175,15 +175,15 @@ $$
 - 風による構造物の振動
 - 人間活動による振動
 
-## F-k変換
+## 4. F-k変換
 
-### F-K法の理論的背景
+### 4.1 F-K法の理論的背景
 
 F-K法（Frequency-Wavenumber Method）は、時空間領域の波動場データを周波数-波数領域に変換することで、波の伝播特性を解析する手法である。
 
-#### なぜF-K変換から位相速度が推定できるのか
+#### 4.1.1 なぜF-K変換から位相速度が推定できるのか
 
-##### 直感的な理解
+##### 4.1.1.1 直感的な理解
 
 波動場を観測すると、時間と空間の両方で周期的な変化が見られる：
 1. **時間的な周期性**：ある場所で観測すると、一定の周期で振動（周波数f）
@@ -192,12 +192,12 @@ F-K法（Frequency-Wavenumber Method）は、時空間領域の波動場デー�
 
 F-K変換は、この時空間の周期性を同時に解析し、どの周波数とどの波数の組み合わせが卓越しているかを明らかにする。
 
-##### 数学的な導出：時空間領域から周波数-波数領域への変換
+##### 4.1.1.2 数学的な導出：時空間領域から周波数-波数領域への変換
 
 **ステップ1：1次元波動の復習**
 
 まず、x方向に伝播する単一の平面波を考える：
-$$u(x,t) = A \exp[i(kx - \omega t)] \tag{F-1}$$
+$$u(x,t) = A \exp[i(kx - \omega t)] \hspace{30pt} (F-1)$$
 
 ここで：
 - $k = 2\pi/\lambda$：波数
@@ -208,7 +208,7 @@ $$u(x,t) = A \exp[i(kx - \omega t)] \tag{F-1}$$
 
 実際の微動観測では、複数の観測点（アレイ）でデータを取得する。観測点の位置を$\mathbf{r}_j = (x_j, y_j)$とすると、観測される波動場は様々な方向から到来する平面波の重ね合わせ：
 
-$$u(\mathbf{r}_j, t) = \int\int A(\mathbf{k}) \exp[i(\mathbf{k} \cdot \mathbf{r}_j - \omega t)] d^2\mathbf{k} \tag{F-2}$$
+$$u(\mathbf{r}_j, t) = \int\int A(\mathbf{k}) \exp[i(\mathbf{k} \cdot \mathbf{r}_j - \omega t)] d^2\mathbf{k} \hspace{30pt} (F-2)$$
 
 ここで：
 - $\mathbf{k} = (k_x, k_y)$：波数ベクトル
@@ -218,75 +218,75 @@ $$u(\mathbf{r}_j, t) = \int\int A(\mathbf{k}) \exp[i(\mathbf{k} \cdot \mathbf{r}
 
 離散的な観測データ$u(x_m, y_n, t_l)$に対して、3次元フーリエ変換を適用：
 
-$$U(k_x, k_y, \omega) = \sum_m \sum_n \sum_l u(x_m, y_n, t_l) \exp[-i(k_x x_m + k_y y_n - \omega t_l)] \Delta x \Delta y \Delta t \tag{F-3}$$
+$$U(k_x, k_y, \omega) = \sum_m \sum_n \sum_l u(x_m, y_n, t_l) \exp[-i(k_x x_m + k_y y_n - \omega t_l)] \Delta x \Delta y \Delta t \hspace{30pt} (F-3)$$
 
 実際の計算では、まず時間方向のフーリエ変換を行い、特定の周波数成分を抽出：
 
-$$U(x_m, y_n, \omega) = \sum_l u(x_m, y_n, t_l) \exp[i\omega t_l] \Delta t \tag{F-4}$$
+$$U(x_m, y_n, \omega) = \sum_l u(x_m, y_n, t_l) \exp[i\omega t_l] \Delta t \hspace{30pt} (F-4)$$
 
 次に、この周波数成分に対して空間方向の2次元フーリエ変換：
 
-$$U(k_x, k_y, \omega) = \sum_m \sum_n U(x_m, y_n, \omega) \exp[-i(k_x x_m + k_y y_n)] \Delta x \Delta y \tag{F-5}$$
+$$U(k_x, k_y, \omega) = \sum_m \sum_n U(x_m, y_n, \omega) \exp[-i(k_x x_m + k_y y_n)] \Delta x \Delta y \hspace{30pt} (F-5)$$
 
 **ステップ4：パワースペクトル密度**
 
 F-K スペクトル（パワースペクトル密度）は：
 
-$$P(k_x, k_y, \omega) = |U(k_x, k_y, \omega)|^2 \tag{F-6}$$
+$$P(k_x, k_y, \omega) = |U(k_x, k_y, \omega)|^2 \hspace{30pt} (F-6)$$
 
 これは、周波数$\omega$において、波数$(k_x, k_y)$を持つ波のエネルギーを表す。
 
 **ステップ5：位相速度の推定**
 
 波数ベクトルの大きさと方向：
-$$|\mathbf{k}| = \sqrt{k_x^2 + k_y^2} \tag{F-7}$$
-$$\theta = \arctan(k_y/k_x) \tag{F-8}$$
+$$|\mathbf{k}| = \sqrt{k_x^2 + k_y^2} \hspace{30pt} (F-7)$$
+$$\theta = \arctan(k_y/k_x) \hspace{30pt} (F-8)$$
 
 位相速度：
-$$c = \frac{\omega}{|\mathbf{k}|} = \frac{2\pi f}{\sqrt{k_x^2 + k_y^2}} \tag{F-9}$$
+$$c = \frac{\omega}{|\mathbf{k}|} = \frac{2\pi f}{\sqrt{k_x^2 + k_y^2}} \hspace{30pt} (F-9)$$
 
 F-Kスペクトルのピークを探すことで、卓越する波の波数と伝播方向が決定される。
 
-##### 物理的イメージ：平面波の重ね合わせとしての理解
+##### 4.1.1.3 物理的イメージ：平面波の重ね合わせとしての理解
 
 **単一平面波の場合**
 
 ある方向$\theta$から速度$c$で到来する平面波を考える：
-$$u(\mathbf{r}, t) = A \exp[i(k_x x + k_y y - \omega t)] \tag{F-10}$$
+$$u(\mathbf{r}, t) = A \exp[i(k_x x + k_y y - \omega t)] \hspace{30pt} (F-10)$$
 
 ここで：
 - $k_x = k\cos\theta = (\omega/c)\cos\theta$
 - $k_y = k\sin\theta = (\omega/c)\sin\theta$
 
-この波をF-K変換すると、$(k_x, k_y)$の位置に鋭いピークが現れる。
+この波をF-K変換すると、 $(k_x, k_y)$ の位置に鋭いピークが現れる。
 
 **複数の平面波の場合**
 
 実際の波動場は、様々な方向から到来する波の重ね合わせ：
-$$u(\mathbf{r}, t) = \sum_i A_i \exp[i(k_{xi} x + k_{yi} y - \omega t)] \tag{F-11}$$
+$$u(\mathbf{r}, t) = \sum_i A_i \exp[i(k_{xi} x + k_{yi} y - \omega t)] \hspace{30pt} (F-11)$$
 
-F-K変換により、各波に対応する$(k_{xi}, k_{yi})$の位置にピークが現れ、それぞれの波の：
+F-K変換により、各波に対応する $(k_{xi}, k_{yi})$ の位置にピークが現れ、それぞれの波の：
 - 伝播方向：$\theta_i = \arctan(k_{yi}/k_{xi})$
 - 位相速度：$c_i = \omega/\sqrt{k_{xi}^2 + k_{yi}^2}$
 
 が同時に決定される。
 
-##### 離散フーリエ変換の実装における注意点
+##### 4.1.1.4 離散フーリエ変換の実装における注意点
 
 **1. 空間サンプリング定理**
 
 観測点間隔$\Delta x$に対して、解析可能な最大波数（ナイキスト波数）：
-$$k_{max} = \frac{\pi}{\Delta x} \tag{F-12}$$
+$$k_{max} = \frac{\pi}{\Delta x} \hspace{30pt} (F-12)$$
 
 これに対応する最小波長：
-$$\lambda_{min} = \frac{2\pi}{k_{max}} = 2\Delta x \tag{F-13}$$
+$$\lambda_{min} = \frac{2\pi}{k_{max}} = 2\Delta x \hspace{30pt} (F-13)$$
 
 つまり、観測点間隔の2倍より短い波長は正しく解析できない（空間エイリアシング）。
 
 **2. 波数分解能**
 
 アレイの大きさ（アパーチャ）$L$により、波数分解能が決まる：
-$$\Delta k = \frac{2\pi}{L} \tag{F-14}$$
+$$\Delta k = \frac{2\pi}{L} \hspace{30pt} (F-14)$$
 
 大きなアレイほど、波数（したがって伝播方向と速度）を精密に決定できる。
 
@@ -297,24 +297,24 @@ $$\Delta k = \frac{2\pi}{L} \tag{F-14}$$
 - 波数空間での補間効果
 - スペクトルの見かけの分解能向上（ただし、実質的な分解能は変わらない）
 
-### 基本原理の詳細説明
+### 4.2 基本原理の詳細説明
 
-#### 2次元フーリエ変換の展開
+#### 4.2.1 2次元フーリエ変換の展開
 
 **連続系での定義**
 
 時空間領域から周波数-波数領域への変換：
-$$U(\mathbf{k}, \omega) = \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} u(\mathbf{r}, t) \exp[-i(\mathbf{k} \cdot \mathbf{r} - \omega t)] d^2\mathbf{r} dt \tag{F-15}$$
+$$U(\mathbf{k}, \omega) = \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} u(\mathbf{r}, t) \exp[-i(\mathbf{k} \cdot \mathbf{r} - \omega t)] d^2\mathbf{r} dt \hspace{30pt} (F-15)$$
 
 逆変換：
-$$u(\mathbf{r}, t) = \frac{1}{(2\pi)^3} \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} U(\mathbf{k}, \omega) \exp[i(\mathbf{k} \cdot \mathbf{r} - \omega t)] d^2\mathbf{k} d\omega \tag{F-16}$$
+$$u(\mathbf{r}, t) = \frac{1}{(2\pi)^3} \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} U(\mathbf{k}, \omega) \exp[i(\mathbf{k} \cdot \mathbf{r} - \omega t)] d^2\mathbf{k} d\omega \hspace{30pt} (F-16)$$
 
 **離散系での実装**
 
 N個の観測点$\mathbf{r}_j = (x_j, y_j)$、$j = 1, 2, ..., N$での観測データに対して：
 
 1. 時間窓の設定とフーリエ変換
-   $$U(\mathbf{r}_j, \omega) = \sum_{n=0}^{N_t-1} u(\mathbf{r}_j, t_n) w(t_n) \exp[i\omega t_n] \Delta t \tag{F-17}$$
+   $$U(\mathbf{r}_j, \omega) = \sum_{n=0}^{N_t-1} u(\mathbf{r}_j, t_n) w(t_n) \exp[i\omega t_n] \Delta t \hspace{30pt} (F-17)$$
    
    ここで$w(t_n)$は窓関数（例：Hanning窓）
 
@@ -322,13 +322,13 @@ N個の観測点$\mathbf{r}_j = (x_j, y_j)$、$j = 1, 2, ..., N$での観測デ�
    アレイの重心を原点として座標を正規化
 
 3. 2次元空間フーリエ変換
-   $$U(k_x, k_y, \omega) = \sum_{j=1}^{N} U(\mathbf{r}_j, \omega) \exp[-i(k_x x_j + k_y y_j)] \tag{F-18}$$
+   $$U(k_x, k_y, \omega) = \sum_{j=1}^{N} U(\mathbf{r}_j, \omega) \exp[-i(k_x x_j + k_y y_j)] \hspace{30pt} (F-18)$$
 
-#### アレイ応答関数の導出
+#### 4.2.2 アレイ応答関数の導出
 
 アレイ応答関数（Array Response Function, ARF）は、特定の波数に対するアレイの感度を表す：
 
-$$ARF(\mathbf{k}) = \left| \sum_{j=1}^{N} \exp[i\mathbf{k} \cdot \mathbf{r}_j] \right|^2 \tag{F-19}$$
+$$ARF(\mathbf{k}) = \left| \sum_{j=1}^{N} \exp[i\mathbf{k} \cdot \mathbf{r}_j] \right|^2 \hspace{30pt} (F-19)$$
 
 **理想的なアレイ応答**
 - メインローブ：真の波数で最大値
@@ -353,7 +353,7 @@ $$ARF(\mathbf{k}) = \left| \sum_{j=1}^{N} \exp[i\mathbf{k} \cdot \mathbf{r}_j] \
    - サイドローブの抑制に有効
    - 最適化手法により配置決定
 
-#### ビームフォーミングの原理
+#### 4.2.3 ビームフォーミングの原理
 
 ビームフォーミングは、特定の方向・速度から到来する波を強調する空間フィルタリング技術：
 
@@ -361,32 +361,32 @@ $$ARF(\mathbf{k}) = \left| \sum_{j=1}^{N} \exp[i\mathbf{k} \cdot \mathbf{r}_j] \
 
 スローネスベクトル$\mathbf{s} = (s_x, s_y) = \mathbf{k}/\omega$に対して：
 
-$$B(\mathbf{s}, \omega) = \sum_{j=1}^{N} U(\mathbf{r}_j, \omega) \exp[i\omega \mathbf{s} \cdot \mathbf{r}_j] \tag{F-20}$$
+$$B(\mathbf{s}, \omega) = \sum_{j=1}^{N} U(\mathbf{r}_j, \omega) \exp[i\omega \mathbf{s} \cdot \mathbf{r}_j] \hspace{30pt} (F-20)$$
 
 ビームパワー：
-$$P(\mathbf{s}, \omega) = |B(\mathbf{s}, \omega)|^2 \tag{F-21}$$
+$$P(\mathbf{s}, \omega) = |B(\mathbf{s}, \omega)|^2 \hspace{30pt} (F-21)$$
 
 **最尤法（Maximum Likelihood Method）**
 
 より高度な手法として、ノイズの統計的性質を考慮：
 
 1. クロススペクトル行列の計算
-   $$C_{jk}(\omega) = \langle U(\mathbf{r}_j, \omega) U^*(\mathbf{r}_k, \omega) \rangle \tag{F-22}$$
+   $$C_{jk}(\omega) = \langle U(\mathbf{r}_j, \omega) U^*(\mathbf{r}_k, \omega) \rangle \hspace{30pt} (F-22)$$
 
 2. 最尤推定量
-   $$P_{ML}(\mathbf{s}, \omega) = \frac{1}{\mathbf{e}^H(\mathbf{s}) \mathbf{C}^{-1}(\omega) \mathbf{e}(\mathbf{s})} \tag{F-23}$$
+   $$P_{ML}(\mathbf{s}, \omega) = \frac{1}{\mathbf{e}^H(\mathbf{s}) \mathbf{C}^{-1}(\omega) \mathbf{e}(\mathbf{s})} \hspace{30pt} (F-23)$$
    
    ここで$\mathbf{e}(\mathbf{s}) = [e^{i\omega \mathbf{s} \cdot \mathbf{r}_1}, ..., e^{i\omega \mathbf{s} \cdot \mathbf{r}_N}]^T$
 
-#### スローネスベクトルと波数ベクトルの関係
+#### 4.2.4 スローネスベクトルと波数ベクトルの関係
 
 **スローネス（Slowness）の定義**
 
 スローネスは位相速度の逆数：
-$$s = \frac{1}{c} \tag{F-24}$$
+$$s = \frac{1}{c} \hspace{30pt} (F-24)$$
 
 スローネスベクトル：
-$$\mathbf{s} = \frac{\mathbf{k}}{\omega} = \frac{1}{c}\hat{\mathbf{n}} \tag{F-25}$$
+$$\mathbf{s} = \frac{\mathbf{k}}{\omega} = \frac{1}{c}\hat{\mathbf{n}} \hspace{30pt} (F-25)$$
 
 ここで$\hat{\mathbf{n}}$は伝播方向の単位ベクトル。
 
@@ -427,14 +427,14 @@ $$\mathbf{s} = \frac{\mathbf{k}}{\omega} = \frac{1}{c}\hat{\mathbf{n}} \tag{F-25
    - 基本モード/高次モードの識別
    - SPAC法の結果との比較・統合
 
-## 2. SPAC法（空間自己相関法）
+## 5. SPAC法（空間自己相関法）
 
-### 2.1 理論的背景
+### 5.1 理論的背景
 SPAC法（Spatial Autocorrelation Method）は、Aki (1957) により提案された手法で、微動の空間的な相関を利用して位相速度を推定する。
 
-#### なぜ空間相関から位相速度が推定できるのか
+#### 5.1.1 なぜ空間相関から位相速度が推定できるのか
 
-##### 直感的な理解
+##### 5.1.1.1 直感的な理解
 2つの観測点で同じ波を観測する場合を考える：
 1. **観測点間距離が波長の整数倍**：波形が完全に一致（相関係数 = 1）
 2. **観測点間距離が波長の半整数倍**：波形が逆位相（相関係数 = -1）
@@ -442,13 +442,13 @@ SPAC法（Spatial Autocorrelation Method）は、Aki (1957) により提案さ�
 
 この相関の周期性から波長を推定でき、周波数との関係から位相速度が求まる。
 
-##### 数学的な導出：2点間相関からベッセル関数へ
+##### 5.1.1.2 数学的な導出：2点間相関からベッセル関数へ
 
 座標原点に観測点1（位置ベクトル$\mathbf{r}_1 = \mathbf{0}$）、そこから距離$r$離れた位置に観測点2（位置ベクトル$\mathbf{r}_2$）を配置する。SPAC法では各周波数成分を独立に解析するため、特定の角周波数$\omega$（周波数$f = \omega/2\pi$）の成分に着目する。
 
 周波数領域での波動場は、全方位から到来する平面波の重ね合わせとして表現される：
 
-$$u(\mathbf{r}, \omega) = \int_0^{2\pi} A(\theta, \omega) \exp[i\mathbf{k}(\theta) \cdot \mathbf{r}] d\theta \tag{2-1}$$
+$$u(\mathbf{r}, \omega) = \int_0^{2\pi} A(\theta, \omega) \exp[i\mathbf{k}(\theta) \cdot \mathbf{r}] d\theta \hspace{30pt} (2-1)$$
 
 ここで：
 - $\mathbf{k}(\theta) = k[\cos\theta, \sin\theta]^T$：方位角$\theta$方向の波数ベクトル
@@ -457,112 +457,112 @@ $$u(\mathbf{r}, \omega) = \int_0^{2\pi} A(\theta, \omega) \exp[i\mathbf{k}(\thet
 - $c$：位相速度
 
 観測点1（原点）での波動場：
-$$u(\mathbf{r}_1, \omega) = u(\mathbf{0}, \omega) = \int_0^{2\pi} A(\theta, \omega) d\theta \tag{2-2}$$
+$$u(\mathbf{r}_1, \omega) = u(\mathbf{0}, \omega) = \int_0^{2\pi} A(\theta, \omega) d\theta \hspace{30pt} (2-2)$$
 
 観測点2（位置$\mathbf{r}_2$）での波動場：
-$$u(\mathbf{r}_2, \omega) = \int_0^{2\pi} A(\theta, \omega) \exp[i\mathbf{k}(\theta) \cdot \mathbf{r}_2] d\theta \tag{2-3}$$
+$$u(\mathbf{r}_2, \omega) = \int_0^{2\pi} A(\theta, \omega) \exp[i\mathbf{k}(\theta) \cdot \mathbf{r}_2] d\theta \hspace{30pt} (2-3)$$
 
 観測点2が観測点1から距離$r$、方位角$\alpha$の位置にある場合、$\mathbf{r}_2 = r[\cos\alpha, \sin\alpha]^T$より：
-$$\mathbf{k}(\theta) \cdot \mathbf{r}_2 = kr\cos(\theta - \alpha) \tag{2-4}$$
+$$\mathbf{k}(\theta) \cdot \mathbf{r}_2 = kr\cos(\theta - \alpha) \hspace{30pt} (2-4)$$
 
 **ステップ1：相関関数の計算**
 
 周波数領域での2点間のクロススペクトル密度は：
-$$S_{12}(\omega) = \langle u(\mathbf{r}_1, \omega) u^*(\mathbf{r}_2, \omega) \rangle \tag{2-5}$$
+$$S_{12}(\omega) = \langle u(\mathbf{r}_1, \omega) u^*(\mathbf{r}_2, \omega) \rangle \hspace{30pt} (2-5)$$
 
 ここで、$\langle \cdot \rangle$はアンサンブル平均を表す。式(2-2)と(2-3)を代入：
-$$S_{12}(\omega) = \left\langle \int_0^{2\pi} A(\theta_1, \omega) d\theta_1 \cdot \left[\int_0^{2\pi} A^*(\theta_2, \omega) \exp[-i\mathbf{k}(\theta_2) \cdot \mathbf{r}_2] d\theta_2\right] \right\rangle \tag{2-6}$$
+$$S_{12}(\omega) = \left\langle \int_0^{2\pi} A(\theta_1, \omega) d\theta_1 \cdot \left[\int_0^{2\pi} A^*(\theta_2, \omega) \exp[-i\mathbf{k}(\theta_2) \cdot \mathbf{r}_2] d\theta_2\right] \right\rangle \hspace{30pt} (2-6)$$
 
 式(2-4)を用いて：
-$$S_{12}(\omega) = \left\langle \int_0^{2\pi} \int_0^{2\pi} A(\theta_1, \omega) A^*(\theta_2, \omega) \exp[-ikr\cos(\theta_2 - \alpha)] d\theta_1 d\theta_2 \right\rangle \tag{2-7}$$
+$$S_{12}(\omega) = \left\langle \int_0^{2\pi} \int_0^{2\pi} A(\theta_1, \omega) A^*(\theta_2, \omega) \exp[-ikr\cos(\theta_2 - \alpha)] d\theta_1 d\theta_2 \right\rangle \hspace{30pt} (2-7)$$
 
 **ステップ2：等方的波動場の仮定**
 
 微動が定常確率過程であり、異なる方向からの波は統計的に独立（非相関）であると仮定する。すなわち：
-$$\langle A(\theta_1, \omega) A^*(\theta_2, \omega) \rangle = S_A(\theta, \omega) \delta(\theta_1 - \theta_2) \tag{2-8}$$
+$$\langle A(\theta_1, \omega) A^*(\theta_2, \omega) \rangle = S_A(\theta, \omega) \delta(\theta_1 - \theta_2) \hspace{30pt} (2-8)$$
 
 ここで、$S_A(\theta, \omega)$は方位角$\theta$方向からの波のパワースペクトル密度。
 
 等方的な波動場の仮定では、全方位から等しい強度の波が到来するため：
-$$S_A(\theta, \omega) = S_0(\omega) = \text{const} \tag{2-9}$$
+$$S_A(\theta, \omega) = S_0(\omega) = \text{const} \hspace{30pt} (2-9)$$
 
 式(2-7)に式(2-8)を適用すると：
-$$S_{12}(\omega) = \int_0^{2\pi} \int_0^{2\pi} S_0(\omega) \delta(\theta_1 - \theta_2) \exp[-ikr\cos(\theta_2 - \alpha)] d\theta_1 d\theta_2 \tag{2-10}$$
+$$S_{12}(\omega) = \int_0^{2\pi} \int_0^{2\pi} S_0(\omega) \delta(\theta_1 - \theta_2) \exp[-ikr\cos(\theta_2 - \alpha)] d\theta_1 d\theta_2 \hspace{30pt} (2-10)$$
 
 デルタ関数の性質を用いて$\theta_1$についての積分を実行する。デルタ関数の定義より：
 $$\int_0^{2\pi} f(\theta_1) \delta(\theta_1 - \theta_2) d\theta_1 = \begin{cases}
 f(\theta_2) & \text{if } 0 \leq \theta_2 \leq 2\pi \\
 0 & \text{otherwise}
-\end{cases} \tag{2-10a}$$
+\end{cases} \hspace{30pt} (2-10a)$$
 
 ここで$f(\theta_1) = 1$なので：
-$$S_{12}(\omega) = S_0(\omega) \int_0^{2\pi} \left[\int_0^{2\pi} \delta(\theta_1 - \theta_2) d\theta_1\right] \exp[-ikr\cos(\theta_2 - \alpha)] d\theta_2 \tag{2-10b}$$
+$$S_{12}(\omega) = S_0(\omega) \int_0^{2\pi} \left[\int_0^{2\pi} \delta(\theta_1 - \theta_2) d\theta_1\right] \exp[-ikr\cos(\theta_2 - \alpha)] d\theta_2 \hspace{30pt} (2-10b)$$
 
 内側の積分は$\theta_2 \in [0, 2\pi]$のとき1となるため：
-$$S_{12}(\omega) = S_0(\omega) \int_0^{2\pi} \exp[-ikr\cos(\theta_2 - \alpha)] d\theta_2 \tag{2-11}$$
+$$S_{12}(\omega) = S_0(\omega) \int_0^{2\pi} \exp[-ikr\cos(\theta_2 - \alpha)] d\theta_2 \hspace{30pt} (2-11)$$
 
 変数を$\theta = \theta_2$と書き直すと：
-$$S_{12}(\omega) = S_0(\omega) \int_0^{2\pi} \exp[-ikr\cos(\theta - \alpha)] d\theta \tag{2-11}$$
+$$S_{12}(\omega) = S_0(\omega) \int_0^{2\pi} \exp[-ikr\cos(\theta - \alpha)] d\theta \hspace{30pt} (2-11)$$
 
 **ステップ3：パワースペクトル密度の計算**
 
 観測点1でのパワースペクトル密度：
-$$S_{11}(\omega) = \langle |u(\mathbf{r}_1, \omega)|^2 \rangle = \langle u(\mathbf{r}_1, \omega) u^*(\mathbf{r}_1, \omega) \rangle \tag{2-12a}$$
+$$S_{11}(\omega) = \langle |u(\mathbf{r}_1, \omega)|^2 \rangle = \langle u(\mathbf{r}_1, \omega) u^*(\mathbf{r}_1, \omega) \rangle \hspace{30pt} (2-12a)$$
 
 式(2-2)より$u(\mathbf{r}_1, \omega) = u(\mathbf{0}, \omega) = \int_0^{2\pi} A(\theta, \omega) d\theta$なので：
-$$S_{11}(\omega) = \left\langle \left[\int_0^{2\pi} A(\theta_1, \omega) d\theta_1\right] \left[\int_0^{2\pi} A^*(\theta_2, \omega) d\theta_2\right] \right\rangle \tag{2-12b}$$
+$$S_{11}(\omega) = \left\langle \left[\int_0^{2\pi} A(\theta_1, \omega) d\theta_1\right] \left[\int_0^{2\pi} A^*(\theta_2, \omega) d\theta_2\right] \right\rangle \hspace{30pt} (2-12b)$$
 
 式(2-8)の関係を用いると：
 $$S_{11}(\omega) = \int_0^{2\pi} \int_0^{2\pi} \langle A(\theta_1, \omega) A^*(\theta_2, \omega) \rangle d\theta_1 d\theta_2$$
-$$= \int_0^{2\pi} \int_0^{2\pi} S_0(\omega) \delta(\theta_1 - \theta_2) d\theta_1 d\theta_2 \tag{2-12c}$$
+$$= \int_0^{2\pi} \int_0^{2\pi} S_0(\omega) \delta(\theta_1 - \theta_2) d\theta_1 d\theta_2 \hspace{30pt} (2-12c)$$
 
 デルタ関数により$\theta_1$についての積分を実行：
-$$S_{11}(\omega) = S_0(\omega) \int_0^{2\pi} d\theta_2 = 2\pi S_0(\omega) \tag{2-12}$$
+$$S_{11}(\omega) = S_0(\omega) \int_0^{2\pi} d\theta_2 = 2\pi S_0(\omega) \hspace{30pt} (2-12)$$
 
 観測点2でのパワースペクトル密度も同様に計算される。式(2-3)より：
-$$S_{22}(\omega) = \left\langle \left|\int_0^{2\pi} A(\theta, \omega) \exp[i\mathbf{k}(\theta) \cdot \mathbf{r}_2] d\theta\right|^2 \right\rangle \tag{2-13a}$$
+$$S_{22}(\omega) = \left\langle \left|\int_0^{2\pi} A(\theta, \omega) \exp[i\mathbf{k}(\theta) \cdot \mathbf{r}_2] d\theta\right|^2 \right\rangle \hspace{30pt} (2-13a)$$
 
-$$= \int_0^{2\pi} \int_0^{2\pi} S_0(\omega) \delta(\theta_1 - \theta_2) \exp[i\mathbf{k}(\theta_1) \cdot \mathbf{r}_2] \exp[-i\mathbf{k}(\theta_2) \cdot \mathbf{r}_2] d\theta_1 d\theta_2 \tag{2-13b}$$
+$$= \int_0^{2\pi} \int_0^{2\pi} S_0(\omega) \delta(\theta_1 - \theta_2) \exp[i\mathbf{k}(\theta_1) \cdot \mathbf{r}_2] \exp[-i\mathbf{k}(\theta_2) \cdot \mathbf{r}_2] d\theta_1 d\theta_2 \hspace{30pt} (2-13b)$$
 
 デルタ関数により$\theta_1 = \theta_2$となり、指数関数の積は1になる：
-$$S_{22}(\omega) = S_0(\omega) \int_0^{2\pi} d\theta = 2\pi S_0(\omega) \tag{2-13}$$
+$$S_{22}(\omega) = S_0(\omega) \int_0^{2\pi} d\theta = 2\pi S_0(\omega) \hspace{30pt} (2-13)$$
 
 したがって、等方的波動場では全ての観測点で同じパワースペクトル密度を持つ。
 
 **ステップ4：正規化された空間自己相関係数**
 
 空間自己相関係数は以下のように定義される：
-$$\rho(r, \omega) = \frac{S_{12}(\omega)}{\sqrt{S_{11}(\omega) S_{22}(\omega)}} = \frac{S_0(\omega) \int_0^{2\pi} \exp[-ikr\cos(\theta - \alpha)] d\theta}{2\pi S_0(\omega)} \tag{2-14}$$
+$$\rho(r, \omega) = \frac{S_{12}(\omega)}{\sqrt{S_{11}(\omega) S_{22}(\omega)}} = \frac{S_0(\omega) \int_0^{2\pi} \exp[-ikr\cos(\theta - \alpha)] d\theta}{2\pi S_0(\omega)} \hspace{30pt} (2-14)$$
 
 観測点2の方位$\alpha$によらないことを示すため、変数変換$\psi = \theta - \alpha$：
-$$\rho(r, \omega) = \frac{1}{2\pi} \int_0^{2\pi} \exp[-ikr\cos\psi] d\psi \tag{2-15}$$
+$$\rho(r, \omega) = \frac{1}{2\pi} \int_0^{2\pi} \exp[-ikr\cos\psi] d\psi \hspace{30pt} (2-15)$$
 
 **ステップ5：ベッセル関数の認識（Hansenの積分表示）**
 
 第1種$n$次ベッセル関数のHansenの積分表示（一般形）は以下のように与えられる：
 
-$$J_n(z) = \frac{1}{2\pi i^n} \int_0^{2\pi} e^{iz\cos\theta} e^{in\theta} d\theta \tag{2-15a}$$
+$$J_n(z) = \frac{1}{2\pi i^n} \int_0^{2\pi} e^{iz\cos\theta} e^{in\theta} d\theta \hspace{30pt} (2-15a)$$
 
 特に$n = 0$の場合：
 
-$$J_0(z) = \frac{1}{2\pi} \int_0^{2\pi} e^{iz\cos\theta} d\theta \tag{2-16}$$
+$$J_0(z) = \frac{1}{2\pi} \int_0^{2\pi} e^{iz\cos\theta} d\theta \hspace{30pt} (2-16)$$
 
 式(2-15)の積分は、まさにこの$n = 0$の場合と一致する。
 
 式(2-15)において$z = -kr$とおくと：
-$$\rho(r, \omega) = \frac{1}{2\pi} \int_0^{2\pi} \exp[-ikr\cos\psi] d\psi = \frac{1}{2\pi} \int_0^{2\pi} e^{i(-kr)\cos\psi} d\psi = J_0(-kr) \tag{2-17}$$
+$$\rho(r, \omega) = \frac{1}{2\pi} \int_0^{2\pi} \exp[-ikr\cos\psi] d\psi = \frac{1}{2\pi} \int_0^{2\pi} e^{i(-kr)\cos\psi} d\psi = J_0(-kr) \hspace{30pt} (2-17)$$
 
 第1種0次ベッセル関数は偶関数であるため：
-$$J_0(-z) = J_0(z) \tag{2-18}$$
+$$J_0(-z) = J_0(z) \hspace{30pt} (2-18)$$
 
 したがって、空間自己相関係数は：
-$$\rho(r, \omega) = J_0(kr) = J_0\left(\frac{2\pi rf}{c(f)}\right) \tag{2-19}$$
+$$\rho(r, \omega) = J_0(kr) = J_0\left(\frac{2\pi rf}{c(f)}\right) \hspace{30pt} (2-19)$$
 
 ここで、$k = \omega/c = 2\pi f/c$の関係を用いた。この結果は、等方的な波動場における空間相関が、観測点間距離と波長の比によって決定されることを示している。
 
-#### 物理的イメージ：1次元波動による理解
+#### 5.1.2 物理的イメージ：1次元波動による理解
 
-##### 1. 単純な正弦波の場合
+##### 5.1.2.1 単純な正弦波の場合
 まず、最も単純な1次元の正弦波を考える：
 $$u(x,t) = A\sin(kx - \omega t) = A\sin\left(\frac{2\pi}{\lambda}x - 2\pi ft\right)$$
 
@@ -572,7 +572,7 @@ $$u(x,t) = A\sin(kx - \omega t) = A\sin\left(\frac{2\pi}{\lambda}x - 2\pi ft\rig
 
 位相差は$\Delta\phi = kr = 2\pi r/\lambda$となる。
 
-##### 2. 空間自己相関係数の物理的意味
+##### 5.1.2.2 空間自己相関係数の物理的意味
 空間自己相関係数の定義式は：
 $$\rho_{12} = \frac{\langle u_1(t) u_2(t) \rangle}{\sqrt{\langle u_1^2(t) \rangle \langle u_2^2(t) \rangle}}$$
 
@@ -603,7 +603,7 @@ $$\rho_{12} = \frac{\frac{A^2}{2} \cos(kr)}{\sqrt{\frac{A^2}{2} \cdot \frac{A^2}
 - **$r = \lambda/2$**：$\rho = \cos(\pi) = -1$（逆位相）
 - **$r = \lambda$**：$\rho = \cos(2\pi) = 1$（再び一致）
 
-##### 3. 等方的波動場での振る舞い
+##### 5.1.2.3 等方的波動場での振る舞い
 実際の微動では、波があらゆる方向から到来する。各方向からの波の寄与を足し合わせると：
 
 $$\rho(r) = \frac{1}{2\pi}\int_0^{2\pi} \cos(kr\cos\theta) d\theta = J_0(kr)$$
@@ -613,7 +613,7 @@ $$\rho(r) = \frac{1}{2\pi}\int_0^{2\pi} \cos(kr\cos\theta) d\theta = J_0(kr)$$
 - 垂直方向に進む波：位相差ゼロ
 - 全方向の平均がベッセル関数を生む
 
-##### 4. ベッセル関数の特徴的な振る舞い
+##### 5.1.2.4 ベッセル関数の特徴的な振る舞い
 $$J_0(x) \text{の性質：}$$
 - $x = 0$で$J_0(0) = 1$（同一点では完全相関）
 - $x \approx 2.405$で初めてゼロ（第1ゼロ点）
@@ -623,18 +623,18 @@ $$J_0(x) \text{の性質：}$$
 - **第1ゼロ点**：$kr = 2\pi r/\lambda \approx 2.405$
 - つまり：$r \approx 0.38\lambda$で相関がゼロ
 
-##### 5. 理想的な条件と実用的な意味
+##### 5.1.2.5 理想的な条件と実用的な意味
 理想的な等方的波動場では：
 - 全方向から等しい強度の波が到来
 - 空間相関はきれいなベッセル関数に従う
 - ゼロ点の位置から波長（したがって位相速度）を推定可能
 
 位相速度の推定：
-$$c = f\lambda = f \cdot \frac{2\pi r}{2.405} \approx 2.6 \cdot rf \tag{2-19a}$$
+$$c = f\lambda = f \cdot \frac{2\pi r}{2.405} \approx 2.6 \cdot rf \hspace{30pt} (2-19a)$$
 
 これが微動アレイ探査の基本原理：観測点間の相関からレイリー波の波長を求め、地下構造を推定する。
 
-##### 6. なぜ空間相関から位相速度が求まるのか：直感的な理解
+##### 5.1.2.6 なぜ空間相関から位相速度が求まるのか：直感的な理解
 
 **基本的なアイデア**：波の「繰り返しパターン」を見つけることで、その波長がわかる
 
@@ -674,10 +674,10 @@ $$c = f\lambda = f \cdot \frac{2\pi r}{2.405} \approx 2.6 \cdot rf \tag{2-19a}$$
 
 つまり、空間相関は「見えない波の波長を測る物差し」の役割を果たしている。
 
-### 2.2 基本原理
+### 5.2 基本原理
 円形アレイ（中心点＋周辺観測点）での観測データから、空間自己相関係数を計算：
 
-$$\rho(r, f) = \frac{2 \cdot \text{Re}[S_{12}(f)]}{\sqrt{S_{11}(f) \cdot S_{22}(f)}} \tag{2-20}$$
+$$\rho(r, f) = \frac{2 \cdot \text{Re}[S_{12}(f)]}{\sqrt{S_{11}(f) \cdot S_{22}(f)}} \hspace{30pt} (2-20)$$
 
 ここで：
 - $S_{12}(f)$: クロススペクトル密度
@@ -685,25 +685,25 @@ $$\rho(r, f) = \frac{2 \cdot \text{Re}[S_{12}(f)]}{\sqrt{S_{11}(f) \cdot S_{22}(
 - $r$: 観測点間距離
 - $\text{Re}[\cdot]$: 実部（等方的波動場では虚部はゼロ）
 
-### 2.3 位相速度の推定
+### 5.3 位相速度の推定
 空間自己相関係数は第1種0次ベッセル関数で表現される：
 
-$$\rho(r, f) = J_0\left(\frac{2\pi rf}{c(f)}\right) \tag{2-21}$$
+$$\rho(r, f) = J_0\left(\frac{2\pi rf}{c(f)}\right) \hspace{30pt} (2-21)$$
 
 これを逆解析することで位相速度 $c(f)$ を求める。
 
-### 2.4 実装上の注意点
+### 5.4 実装上の注意点
 1. **時間窓の設定**：10-30分程度の連続記録を使用
 2. **セグメント分割**：20-40秒程度に分割し、平均化
 3. **窓関数**：Hanning窓などを適用してスペクトルリーケージを低減
 4. **ノイズ除去**：過渡的なノイズを含むセグメントは除外
 
-## 3. FK法（周波数-波数法）
+## 6. FK法（周波数-波数法）
 
-### 3.1 理論的背景
+### 6.1 理論的背景
 FK法（Frequency-Wavenumber Method）は、アレイ観測データを周波数-波数領域で解析し、表面波の伝播方向と位相速度を推定する。
 
-### 3.2 基本原理
+### 6.2 基本原理
 観測データ $u(x, t)$ のフーリエ変換：
 
 $$U(k, \omega) = \int\int u(x, t) \exp(-i(kx - \omega t)) \, dx \, dt$$
@@ -712,40 +712,40 @@ $$U(k, \omega) = \int\int u(x, t) \exp(-i(kx - \omega t)) \, dx \, dt$$
 
 $$P(k, \omega) = |U(k, \omega)|^2$$
 
-### 3.3 ビームフォーミング
+### 6.3 ビームフォーミング
 最大尤度法やビームフォーミングにより、各周波数での卓越波数を推定：
 
 $$c(f) = \frac{2\pi f}{|k_{\max}|}$$
 
-## 4. 分散曲線の算出と品質管理
+## 7. 分散曲線の算出と品質管理
 
-### 4.1 分散曲線の結合
+### 7.1 分散曲線の結合
 - 異なるアレイサイズからの結果を結合
 - 周波数帯域の重複部分で連続性を確認
 
-### 4.2 品質評価指標
+### 7.2 品質評価指標
 1. **信号対雑音比（SNR）**
 2. **空間自己相関係数の標準偏差**
 3. **FK解析でのピークの明瞭度**
 
-### 4.3 異常値の除去
+### 7.3 異常値の除去
 - 物理的に不合理な速度値（例：表層より深部で低速）
 - 隣接周波数との不連続性が大きい点
 
-## 5. 逆解析手法
+## 8. 逆解析手法
 
-### 5.1 地下構造モデルの構築
+### 8.1 地下構造モデルの構築
 初期モデルの設定：
 - 層数、層厚、S波速度、P波速度、密度
 - 既存の地質情報や物理探査結果を参考
 
-### 5.2 順解析
+### 8.2 順解析
 レイリー波の理論分散曲線の計算：
 - Thomson-Haskell法
 - 反射透過係数法
 - 有限要素法
 
-### 5.3 最適化手法
+### 8.3 最適化手法
 1. **遺伝的アルゴリズム（GA）**
    - グローバルサーチに適している
    - 計算時間が長い
@@ -758,14 +758,14 @@ $$c(f) = \frac{2\pi f}{|k_{\max}|}$$
    - 収束が速い
    - 初期値依存性が高い
 
-### 5.4 誤差評価
+### 8.4 誤差評価
 観測分散曲線と理論分散曲線の残差：
 
 $$\text{misfit} = \sqrt{\frac{\sum\left[\frac{(c_{\text{obs}} - c_{\text{cal}})^2}{\sigma^2}\right]}{N}}$$
 
-## 6. 実装上のトラブルシューティング
+## 9. 実装上のトラブルシューティング
 
-### 6.1 一般的な問題と対策
+### 9.1 一般的な問題と対策
 
 1. **低周波数でのSPAC係数の不安定性**
    - 原因：アレイサイズが波長に対して小さい
@@ -779,7 +779,7 @@ $$\text{misfit} = \sqrt{\frac{\sum\left[\frac{(c_{\text{obs}} - c_{\text{cal}})^
    - 原因：モード判定の誤り、ノイズの影響
    - 対策：隣接周波数との連続性をチェック、品質の低いデータを除外
 
-### 6.2 データ処理のベストプラクティス
+### 9.2 データ処理のベストプラクティス
 
 1. **前処理**
    - 機器応答の補正
@@ -796,18 +796,18 @@ $$\text{misfit} = \sqrt{\frac{\sum\left[\frac{(c_{\text{obs}} - c_{\text{cal}})^
    - 横方向不均質性の影響
    - 解の非唯一性
 
-## 7. 参考文献と推奨リソース
+## 10. 参考文献と推奨リソース
 
-### 基本文献
+### 10.1 基本文献
 - Aki, K. (1957): Space and time spectra of stationary stochastic waves
 - Okada, H. (2003): The Microtremor Survey Method, SEG
 
-### 解析ソフトウェア
+### 10.2 解析ソフトウェア
 - Geopsy (オープンソース)
 - MASW (商用)
 - 自作コード（Python/MATLAB）
 
-### データフォーマット
+### 10.3 データフォーマット
 - SEG-Y, SAC, MiniSEED
 - 時刻同期の重要性（GPS時刻推奨）
 
@@ -872,7 +872,7 @@ $$\frac{\partial c}{\partial v_s(z)} = K(z) \propto \left| \frac{\partial u}{\pa
 ### B.1 波動方程式の基礎
 
 弾性体中の運動方程式（Navier方程式）：
-$$\rho \frac{\partial^2 \mathbf{u}}{\partial t^2} = (\lambda + \mu) \nabla(\nabla \cdot \mathbf{u}) + \mu \nabla^2 \mathbf{u} + \mathbf{f} \tag{B-1}$$
+$$\rho \frac{\partial^2 \mathbf{u}}{\partial t^2} = (\lambda + \mu) \nabla(\nabla \cdot \mathbf{u}) + \mu \nabla^2 \mathbf{u} + \mathbf{f} \hspace{30pt} (B-1)$$
 
 ここで：
 - $\mathbf{u}$：変位ベクトル
@@ -881,7 +881,7 @@ $$\rho \frac{\partial^2 \mathbf{u}}{\partial t^2} = (\lambda + \mu) \nabla(\nabl
 - $\mathbf{f}$：外力
 
 変位をポテンシャルで表現（Helmholtzの分解）：
-$$\mathbf{u} = \nabla\phi + \nabla \times \boldsymbol{\psi} \tag{B-2}$$
+$$\mathbf{u} = \nabla\phi + \nabla \times \boldsymbol{\psi} \hspace{30pt} (B-2)$$
 
 ここで$\phi$はスカラーポテンシャル、$\boldsymbol{\psi}$はベクトルポテンシャル。
 
@@ -889,31 +889,31 @@ $$\mathbf{u} = \nabla\phi + \nabla \times \boldsymbol{\psi} \tag{B-2}$$
 
 #### B.2.1 P波（縦波）
 スカラーポテンシャル$\phi$に対する波動方程式：
-$$\frac{\partial^2 \phi}{\partial t^2} = v_p^2 \nabla^2 \phi \tag{B-3}$$
+$$\frac{\partial^2 \phi}{\partial t^2} = v_p^2 \nabla^2 \phi \hspace{30pt} (B-3)$$
 
 P波速度：
-$$v_p = \sqrt{\frac{\lambda + 2\mu}{\rho}} = \sqrt{\frac{E(1-\nu)}{\rho(1+\nu)(1-2\nu)}} \tag{B-4}$$
+$$v_p = \sqrt{\frac{\lambda + 2\mu}{\rho}} = \sqrt{\frac{E(1-\nu)}{\rho(1+\nu)(1-2\nu)}} \hspace{30pt} (B-4)$$
 
 平面波解：
-$$\phi = A \exp[i(\mathbf{k}_p \cdot \mathbf{r} - \omega t)] \tag{B-5}$$
+$$\phi = A \exp[i(\mathbf{k}_p \cdot \mathbf{r} - \omega t)] \hspace{30pt} (B-5)$$
 
 変位：
-$$\mathbf{u}_p = \nabla\phi = i\mathbf{k}_p A \exp[i(\mathbf{k}_p \cdot \mathbf{r} - \omega t)] \tag{B-6}$$
+$$\mathbf{u}_p = \nabla\phi = i\mathbf{k}_p A \exp[i(\mathbf{k}_p \cdot \mathbf{r} - \omega t)] \hspace{30pt} (B-6)$$
 
 粒子運動は波の進行方向に平行（縦波）。
 
 #### B.2.2 S波（横波）
 ベクトルポテンシャル$\boldsymbol{\psi}$に対する波動方程式：
-$$\frac{\partial^2 \boldsymbol{\psi}}{\partial t^2} = v_s^2 \nabla^2 \boldsymbol{\psi} \tag{B-7}$$
+$$\frac{\partial^2 \boldsymbol{\psi}}{\partial t^2} = v_s^2 \nabla^2 \boldsymbol{\psi} \hspace{30pt} (B-7)$$
 
 S波速度：
-$$v_s = \sqrt{\frac{\mu}{\rho}} = \sqrt{\frac{E}{2\rho(1+\nu)}} \tag{B-8}$$
+$$v_s = \sqrt{\frac{\mu}{\rho}} = \sqrt{\frac{E}{2\rho(1+\nu)}} \hspace{30pt} (B-8)$$
 
 平面波解（SH波の例）：
-$$\psi_z = B \exp[i(k_x x + k_y y - \omega t)] \tag{B-9}$$
+$$\psi_z = B \exp[i(k_x x + k_y y - \omega t)] \hspace{30pt} (B-9)$$
 
 変位：
-$$\mathbf{u}_s = \nabla \times \boldsymbol{\psi} = \begin{pmatrix} -ik_y B \\ ik_x B \\ 0 \end{pmatrix} \exp[i(k_x x + k_y y - \omega t)] \tag{B-10}$$
+$$\mathbf{u}_s = \nabla \times \boldsymbol{\psi} = \begin{pmatrix} -ik_y B \\ ik_x B \\ 0 \end{pmatrix} \exp[i(k_x x + k_y y - \omega t)] \hspace{30pt} (B-10)$$
 
 粒子運動は波の進行方向に垂直（横波）。
 
@@ -922,32 +922,32 @@ $$\mathbf{u}_s = \nabla \times \boldsymbol{\psi} = \begin{pmatrix} -ik_y B \\ ik
 #### B.3.1 レイリー波（Rayleigh Wave）
 
 半無限弾性体（$z \geq 0$）での解を求める。変位ポテンシャルを以下のように仮定：
-$$\phi = A e^{-q_1 z} e^{i(kx - \omega t)} \tag{B-11}$$
-$$\psi_y = B e^{-q_2 z} e^{i(kx - \omega t)} \tag{B-12}$$
+$$\phi = A e^{-q_1 z} e^{i(kx - \omega t)} \hspace{30pt} (B-11)$$
+$$\psi_y = B e^{-q_2 z} e^{i(kx - \omega t)} \hspace{30pt} (B-12)$$
 
 ここで、減衰係数は：
-$$q_1 = k\sqrt{1 - \frac{c^2}{v_p^2}}, \quad q_2 = k\sqrt{1 - \frac{c^2}{v_s^2}} \tag{B-13}$$
+$$q_1 = k\sqrt{1 - \frac{c^2}{v_p^2}}, \quad q_2 = k\sqrt{1 - \frac{c^2}{v_s^2}} \hspace{30pt} (B-13)$$
 
 変位成分：
-$$u_x = \frac{\partial \phi}{\partial x} - \frac{\partial \psi_y}{\partial z} = ik A e^{-q_1 z} + q_2 B e^{-q_2 z} \tag{B-14}$$
-$$u_z = \frac{\partial \phi}{\partial z} + \frac{\partial \psi_y}{\partial x} = -q_1 A e^{-q_1 z} + ik B e^{-q_2 z} \tag{B-15}$$
+$$u_x = \frac{\partial \phi}{\partial x} - \frac{\partial \psi_y}{\partial z} = ik A e^{-q_1 z} + q_2 B e^{-q_2 z} \hspace{30pt} (B-14)$$
+$$u_z = \frac{\partial \phi}{\partial z} + \frac{\partial \psi_y}{\partial x} = -q_1 A e^{-q_1 z} + ik B e^{-q_2 z} \hspace{30pt} (B-15)$$
 
 自由表面での境界条件（$z = 0$で応力ゼロ）：
-$$\sigma_{zz} = \lambda \left(\frac{\partial u_x}{\partial x} + \frac{\partial u_z}{\partial z}\right) + 2\mu \frac{\partial u_z}{\partial z} = 0 \tag{B-16}$$
-$$\sigma_{xz} = \mu \left(\frac{\partial u_x}{\partial z} + \frac{\partial u_z}{\partial x}\right) = 0 \tag{B-17}$$
+$$\sigma_{zz} = \lambda \left(\frac{\partial u_x}{\partial x} + \frac{\partial u_z}{\partial z}\right) + 2\mu \frac{\partial u_z}{\partial z} = 0 \hspace{30pt} (B-16)$$
+$$\sigma_{xz} = \mu \left(\frac{\partial u_x}{\partial z} + \frac{\partial u_z}{\partial x}\right) = 0 \hspace{30pt} (B-17)$$
 
 これらの条件から、レイリー方程式が導かれる：
-$$\left(\frac{c}{v_s}\right)^6 - 8\left(\frac{c}{v_s}\right)^4 + 8\left(3 - 2\frac{v_s^2}{v_p^2}\right)\left(\frac{c}{v_s}\right)^2 - 16\left(1 - \frac{v_s^2}{v_p^2}\right) = 0 \tag{B-18}$$
+$$\left(\frac{c}{v_s}\right)^6 - 8\left(\frac{c}{v_s}\right)^4 + 8\left(3 - 2\frac{v_s^2}{v_p^2}\right)\left(\frac{c}{v_s}\right)^2 - 16\left(1 - \frac{v_s^2}{v_p^2}\right) = 0 \hspace{30pt} (B-18)$$
 
 ポアソン比$\nu = 0.25$の場合、$c_R \approx 0.9194 v_s$。
 
 #### B.3.2 レイリー波の粒子運動
 
 振幅比：
-$$\frac{B}{A} = -\frac{2ikq_1}{k^2 + q_2^2} \tag{B-19}$$
+$$\frac{B}{A} = -\frac{2ikq_1}{k^2 + q_2^2} \hspace{30pt} (B-19)$$
 
 表面での変位（$z = 0$）：
-$$\frac{u_x}{u_z}\bigg|_{z=0} = \frac{ik + q_2 B/A}{-q_1 + ik B/A} \tag{B-20}$$
+$$\frac{u_x}{u_z}\bigg|_{z=0} = \frac{ik + q_2 B/A}{-q_1 + ik B/A} \hspace{30pt} (B-20)$$
 
 これにより、粒子は楕円運動を行い、深さとともに振幅が指数関数的に減衰する。
 
@@ -956,14 +956,14 @@ $$\frac{u_x}{u_z}\bigg|_{z=0} = \frac{ik + q_2 B/A}{-q_1 + ik B/A} \tag{B-20}$$
 層構造が必要。上層（厚さ$H$、S波速度$v_{s1}$）と半無限下層（S波速度$v_{s2}$、$v_{s2} > v_{s1}$）を考える。
 
 SH波の変位（$y$方向のみ）：
-- 上層：$u_y^{(1)} = [A\cos(p_1 z) + B\sin(p_1 z)]e^{i(kx - \omega t)}$ \tag{B-21}
-- 下層：$u_y^{(2)} = C e^{-q z} e^{i(kx - \omega t)}$ \tag{B-22}
+- 上層：$u_y^{(1)} = [A\cos(p_1 z) + B\sin(p_1 z)]e^{i(kx - \omega t)}$ \hspace{30pt} (B-21)
+- 下層：$u_y^{(2)} = C e^{-q z} e^{i(kx - \omega t)}$ \hspace{30pt} (B-22)
 
 ここで：
-$$p_1 = \frac{\omega}{v_{s1}}\sqrt{1 - \frac{c^2}{v_{s1}^2}}, \quad q = k\sqrt{\frac{c^2}{v_{s2}^2} - 1} \tag{B-23}$$
+$$p_1 = \frac{\omega}{v_{s1}}\sqrt{1 - \frac{c^2}{v_{s1}^2}}, \quad q = k\sqrt{\frac{c^2}{v_{s2}^2} - 1} \hspace{30pt} (B-23)$$
 
 境界条件から分散関係式：
-$$\tan(p_1 H) = \frac{\mu_2 q}{\mu_1 p_1} \tag{B-24}$$
+$$\tan(p_1 H) = \frac{\mu_2 q}{\mu_1 p_1} \hspace{30pt} (B-24)$$
 
 ### B.4 分散性の物理的意味
 
@@ -973,7 +973,7 @@ $$\tan(p_1 H) = \frac{\mu_2 q}{\mu_1 p_1} \tag{B-24}$$
 2. **長波長（低周波）**：深部まで到達
 
 位相速度$c(\omega)$と群速度$U(\omega)$の関係：
-$$U = \frac{d\omega}{dk} = c - \lambda \frac{dc}{d\lambda} \tag{B-25}$$
+$$U = \frac{d\omega}{dk} = c - \lambda \frac{dc}{d\lambda} \hspace{30pt} (B-25)$$
 
 正常分散（$dc/d\omega > 0$）の場合、$U < c$となり、波束は個々の波より遅く伝播する。
 
