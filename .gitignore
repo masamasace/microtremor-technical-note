@@ -1,2 +1,5 @@
 *.pptx
 /.claude/
+/.vscode/
+/.devcontainer/
+CLADUE.md
